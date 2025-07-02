@@ -1,0 +1,286 @@
+<!-- Add this CSS to your Django template or CSS file -->
+<style>
+  .header-gradient {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    border-bottom: 3px solid #e50914;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(229, 9, 20, 0.08) 50%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .logo-brand {
+    font-family: 'Arial Black', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    background: linear-gradient(45deg, #e50914, #ff6b6b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .logo-brand:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(229, 9, 20, 0.8));
+  }
+
+  .tagline {
+    color: #b3b3b3 !important;
+    font-size: 0.85rem;
+    font-weight: 300;
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+
+  .search-container {
+    position: relative;
+  }
+
+  .search-input {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-radius: 25px !important;
+    padding: 12px 20px !important;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .search-input:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: #e50914 !important;
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.3) !important;
+    color: white !important;
+  }
+
+  .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .search-btn {
+    border: none !important;
+    background: linear-gradient(45deg, #e50914, #ff1744) !important;
+    border-radius: 0 25px 25px 0 !important;
+    padding: 12px 20px !important;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .search-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  .search-btn:hover::before {
+    width: 100px;
+    height: 100px;
+  }
+
+  .search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+  }
+
+  .admin-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    font-weight: 500;
+  }
+
+  .admin-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+  }
+
+  .telegram-btn {
+    background: linear-gradient(45deg, #e50914, #ff1744) !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 8px 16px !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .telegram-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .telegram-btn:hover::before {
+    left: 100%;
+  }
+
+  .telegram-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+  }
+
+  .category-nav {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 0;
+  }
+
+  .category-btn {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 25px !important;
+    padding: 10px 20px !important;
+    color: #ffffff !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    margin: 4px;
+  }
+
+  .category-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(45deg, #e50914, #ff1744);
+    transition: width 0.3s ease;
+    z-index: -1;
+  }
+
+  .category-btn:hover {
+    color: #ffffff !important;
+    border-color: #e50914 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3);
+  }
+
+  .category-btn:hover::before {
+    width: 100%;
+  }
+
+  /* Responsive improvements */
+  @media (max-width: 768px) {
+    .logo-brand {
+      font-size: 1.8rem;
+    }
+    
+    .search-container {
+      width: 100% !important;
+      margin: 10px 0;
+    }
+    
+    .header-content {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .admin-controls {
+      align-self: stretch;
+      justify-content: center;
+    }
+  }
+
+  /* Smooth animations */
+  * {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>
+
+<!-- Enhanced Header HTML -->
+<header class="header-gradient text-white p-3 mb-4">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center header-content">
+      <!-- Enhanced Logo -->
+      <div class="logo-section">
+        <h1 class="m-0">
+          <a href="{% url 'home' %}" class="text-decoration-none logo-brand">Hypeblog9jaTV</a>
+        </h1>
+        <small class="tagline">Your Ultimate Entertainment Hub</small>
+      </div>
+      
+      <!-- Enhanced Search Bar -->
+      <div class="search-container w-50">
+        <form action="{% url 'search' %}" method="get">
+          <div class="input-group">
+            <input type="text" name="q" class="form-control search-input" 
+                   placeholder="Search movies, series..." aria-label="Search">
+            <button class="btn search-btn" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Enhanced Admin Links -->
+      <div class="admin-controls d-flex gap-2">
+        {% if user.is_staff %}
+        <a href="{% url 'admin:index' %}" class="btn btn-sm admin-btn">
+          <i class="bi bi-gear-fill me-1"></i>Admin
+        </a>
+        {% endif %}
+        <a href="https://t.me/hypeblog9ja" class="btn btn-sm telegram-btn">
+          <i class="bi bi-send-fill me-1"></i>Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Enhanced Categories Navigation -->
+  <nav class="category-nav mt-3">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-center gap-1">
+        <a href="{% url 'category' 'hollywood-movie' %}" class="btn btn-sm category-btn">
+          <i class="bi bi-film me-1"></i>Hollywood
+        </a>
+        <a href="{% url 'category' 'nollywood-movie' %}" class="btn btn-sm category-btn">
+          <i class="bi bi-camera-reels me-1"></i>Nollywood
+        </a>
+        <a href="{% url 'category' 'korean-drama' %}" class="btn btn-sm category-btn">
+          <i class="bi bi-heart-fill me-1"></i>Korean Drama
+        </a>
+        <a href="{% url 'category' 'chinese-drama' %}" class="btn btn-sm category-btn">
+          <i class="bi bi-globe-asia-australia me-1"></i>Chinese Drama
+        </a>
+        <a href="{% url 'category' 'anime' %}" class="btn btn-sm category-btn">
+          <i class="bi bi-lightning-fill me-1"></i>Anime
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>

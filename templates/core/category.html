@@ -1,0 +1,478 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Category: {{ category.name }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
+            <div class="section">
+                <!-- Category Header with Breadcrumbs -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb-custom">
+                        <li class="breadcrumb-item-custom">
+                            <a href="{% url 'home' %}" class="breadcrumb-link">
+                                <i class="bi bi-house-fill me-1"></i>Home
+                            </a>
+                        </li>
+                        <li class="breadcrumb-separator">
+                            <i class="bi bi-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item-custom active" aria-current="page">
+                            {{ category.name }}
+                        </li>
+                    </ol>
+                </nav>
+
+                <div class="category-header mb-4">
+                    <h2 class="category-title mb-2">
+                        <i class="bi bi-collection-fill me-2"></i>{{ category.name }}
+                    </h2>
+                    {% if category.description %}
+                    <p class="category-description">{{ category.description }}</p>
+                    {% endif %}
+                    {% if posts %}
+                    <div class="results-info">
+                        <span class="text-muted">
+                            {% if is_paginated %}
+                            Showing {{ page_obj.start_index }} - {{ page_obj.end_index }} of {{ page_obj.paginator.count }} posts
+                            {% else %}
+                            {{ posts|length }} post{{ posts|length|pluralize }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if posts %}
+                <div class="latest-updates-grid">
+                    {% for post in posts %}
+                    <a href="{% url 'post_detail' category=post.category.slug slug=post.slug %}" class="post-card">
+                        {% if post.thumbnail %}
+                        <div class="post-card-img-container">
+                            <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" loading="lazy">
+                        </div>
+                        {% else %}
+                        <div class="post-card-img-container">
+                            <img src="/static/images/default_thumbnail.jpg" alt="No Image" loading="lazy">
+                        </div>
+                        {% endif %}
+                        <div class="post-card-content">
+                            <h3>{{ post.title }}</h3>
+                            <div class="post-meta">
+                                <span class="post-date">
+                                    <i class="bi bi-calendar3 me-1"></i>{{ post.published_date|date:"M j, Y" }}
+                                </span>
+                                {% if post.category %}
+                                <span class="category-badge">{{ post.category.name }}</span>
+                                {% endif %}
+                            </div>
+                            {% if post.excerpt %}
+                            <p class="post-excerpt">{{ post.excerpt|truncatechars:120 }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Netflix-Style Pagination -->
+                {% if is_paginated %}
+                <div class="pagination-container">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination-list">
+                            <!-- Previous Page -->
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link prev-next" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <i class="bi bi-chevron-left"></i>
+                                    <span>Previous</span>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link prev-next disabled">
+                                    <i class="bi bi-chevron-left"></i>
+                                    <span>Previous</span>
+                                </span>
+                            </li>
+                            {% endif %}
+                            
+                            <!-- Page Numbers with Smart Ellipsis -->
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link current">{{ num }}</span>
+                                </li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                                {% elif num == 1 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                                {% if page_obj.number > 4 %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                                {% endif %}
+                                {% elif num == page_obj.paginator.num_pages %}
+                                {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                                {% endif %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <!-- Next Page -->
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link prev-next" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span>Next</span>
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link prev-next disabled">
+                                    <span>Next</span>
+                                    <i class="bi bi-chevron-right"></i>
+                                </span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    
+                    <!-- Page Info -->
+                    <div class="page-info">
+                        <span class="text-muted">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </span>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="no-results">
+                    <div class="text-center py-5">
+                        <i class="bi bi-folder-x" style="font-size: 4rem; color: #666; margin-bottom: 20px;"></i>
+                        <h3 class="mb-3">No posts found in this category</h3>
+                        <p class="text-muted mb-4">This category doesn't have any published posts yet.</p>
+                        <a href="{% url 'home' %}" class="btn btn-outline-light">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Home
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Styles -->
+<style>
+/* Custom Breadcrumbs */
+.breadcrumb-custom {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 10px;
+}
+
+.breadcrumb-item-custom {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-link {
+    color: #b3b3b3;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-link:hover {
+    color: #e50914;
+    background: rgba(229, 9, 20, 0.1);
+}
+
+.breadcrumb-separator {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.breadcrumb-item-custom.active {
+    color: #e50914;
+    font-weight: 600;
+}
+
+/* Enhanced Category Header */
+/* Replace the existing .category-title rule with this: */
+.category-title {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #e50914 0%, #ff1744 50%, #ff6b6b 100%);
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+/* Add shimmer effect */
+.category-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.category-description {
+    color: #b3b3b3;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.results-info {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+/* Enhanced Post Meta */
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.post-date {
+    color: #999;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+}
+
+.category-badge {
+    background: linear-gradient(45deg, #e50914, #ff1744);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Netflix-Style Pagination */
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    padding: 30px 0;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pagination-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.page-item {
+    display: flex;
+}
+
+.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 48px;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(45deg, #e50914, #ff1744);
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.page-link:hover {
+    color: #ffffff;
+    border-color: #e50914;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+}
+
+.page-link:hover::before {
+    width: 100%;
+}
+
+.page-link.current {
+    background: linear-gradient(45deg, #e50914, #ff1744);
+    border-color: #e50914;
+    color: #ffffff;
+    font-weight: 800;
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5);
+    transform: scale(1.05);
+}
+
+.page-link.prev-next {
+    padding: 10px 24px;
+    gap: 10px;
+    font-weight: 700;
+    min-width: auto;
+}
+
+.page-link.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.page-link.disabled:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.page-info {
+    color: #b3b3b3;
+    font-size: 1rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* No Results Styling */
+.no-results {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-radius: 20px;
+    margin: 40px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .category-title {
+        font-size: 2rem;
+    }
+    
+    .breadcrumb-custom {
+        padding: 12px 15px;
+        gap: 8px;
+    }
+    
+    .pagination-list {
+        gap: 4px;
+    }
+    
+    .page-link {
+        min-width: 42px;
+        height: 42px;
+        padding: 8px 14px;
+        font-size: 0.9rem;
+    }
+    
+    .page-link.prev-next {
+        padding: 8px 18px;
+    }
+    
+    .results-info {
+        text-align: center;
+    }
+    
+    .post-meta {
+        justify-content: center;
+    }
+}
+
+/* Smooth Animations */
+.latest-updates-grid {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover Effects for Post Cards */
+.post-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
+}
+
+.post-card:hover .category-badge {
+    background: linear-gradient(45deg, #ff1744, #ff6b6b);
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+}
+</style>
+{% endblock %}
