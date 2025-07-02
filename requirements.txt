@@ -27,6 +27,7 @@ mysqlclient==2.2.7
 pillow==11.2.1
 pycrypto==2.6.1
 python-dateutil==2.9.0.post0
+python-dotenv==1.1.1
 python-nvd3==0.16.0
 python-slugify==8.0.4
 python-telegram-bot==22.1
