@@ -7,7 +7,7 @@ datetime-truncate==1.1.1
 Django==4.2.13
 # django-analytics==0.0.1 # COMMENT OUT THIS BLOCK
 # django-bower==5.2.0    # COMMENT OUT THIS BLOCK
-# django-ckeditor-5==0.2.18 # COMMENT OUT THIS BLOCK
+django-ckeditor-5==0.2.18 # COMMENT OUT THIS BLOCK
 # django-cleanup==9.0.0  # COMMENT OUT THIS BLOCK
 # django-geckoboard==2.0.0 # COMMENT OUT THIS BLOCK
 django-js-asset==2.2.0
