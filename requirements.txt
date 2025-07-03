@@ -5,15 +5,15 @@ certifi==2025.6.15
 charset-normalizer==3.4.2
 datetime-truncate==1.1.1
 Django==4.2.13
-# django-analytics==0.0.1 # COMMENT OUT THIS BLOCK
-# django-bower==5.2.0    # COMMENT OUT THIS BLOCK
+django-analytics==0.0.1 # COMMENT OUT THIS BLOCK
+django-bower==5.2.0    # COMMENT OUT THIS BLOCK
 django-ckeditor-5==0.2.18 # COMMENT OUT THIS BLOCK
 django-cleanup==9.0.0  # COMMENT OUT THIS BLOCK
-# django-geckoboard==2.0.0 # COMMENT OUT THIS BLOCK
+django-geckoboard==2.0.0 # COMMENT OUT THIS BLOCK
 django-js-asset==2.2.0
-# django-memoize==2.3.1  # COMMENT OUT THIS BLOCK
+django-memoize==2.3.1  # COMMENT OUT THIS BLOCK
 django-multiselectfield==1.0.1
-# django-nvd3==0.10.1    # COMMENT OUT THIS BLOCK
+django-nvd3==0.10.1    # COMMENT OUT THIS BLOCK
 django-resized==1.0.3
 django-taggit==6.1.0
 h11==0.16.0
@@ -27,7 +27,7 @@ pillow==11.2.1
 # pycryptodome # COMMENT OUT THIS LINE
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
-# python-nvd3==0.16.0 # COMMENT OUT THIS LINE
+python-nvd3==0.16.0 # COMMENT OUT THIS LINE
 python-slugify==8.0.4
 python-telegram-bot==22.1 # COMMENT OUT THIS LINE
 requests==2.32.4
