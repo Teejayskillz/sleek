@@ -137,9 +137,10 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             # For older MySQL versions or specific needs:
-            # 'charset': 'utf8mb4',
+            'charset': 'utf8mb4',
+            'driver': 'PyMySQL',
         },
-        'driver': 'PyMySQL',
+        
     }
 }
 
