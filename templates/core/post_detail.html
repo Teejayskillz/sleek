@@ -464,6 +464,23 @@
 </style>
 
 <article class="post-detail">
+
+      <!-- Post Header -->
+    <header class="post-header my-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="display-4">{{ post.title }}</h1>
+           
+        </div>
+        <div class="text-muted mb-3">
+            Published on {{ post.published_date|date:"F j, Y" }}
+        </div>
+         {% if post.category %}
+    <a href="{% url 'category' post.category.slug %}" class="badge bg-primary fs-6 text-decoration-none">
+        {{ post.category.name }}
+    </a>
+{% endif %}
+    </header>
+
     <!-- Featured Image Banner -->
     {% if post.thumbnail %}
     <div class="featured-image">
@@ -474,20 +491,7 @@
     </div>
     {% endif %}
     
-    <!-- Post Header -->
-    <header class="post-header my-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="display-4">{{ post.title }}</h1>
-            {% if post.category %}
-    <a href="{% url 'category' post.category.slug %}" class="badge bg-primary fs-6 text-decoration-none">
-        {{ post.category.name }}
-    </a>
-{% endif %}
-        </div>
-        <div class="text-muted mb-3">
-            Published on {{ post.published_date|date:"F j, Y" }}
-        </div>
-    </header>
+  
     
     <!-- Post Content -->
     <div class="post-content mb-5">
