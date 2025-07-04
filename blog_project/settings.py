@@ -67,8 +67,8 @@ CKEDITOR_5_CONFIGS = {
             'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote',
             'imageUpload',
             'mediaEmbed',
-            'htmlEmbed', # This is crucial for direct raw HTML input via a button
-            'sourceEditing', # Often paired with htmlEmbed for a full source view
+            'htmlEmbed',
+            'sourceEditing',
         ],
         'image': {
             'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'],
@@ -87,29 +87,70 @@ CKEDITOR_5_CONFIGS = {
             # 'sanitizeHtml': 'your_sanitizer_function', # Optional: for advanced security,
             #                                           # this would be a JS function you provide client-side
         },
-        # **This is the most important part for general HTML acceptance**
+        # --- IMPORTANT: Modify this section for cleaner pasting ---
         'htmlSupport': {
             'allow': [
-                # This allows all HTML elements (*), with all attributes, classes, and styles.
-                # USE WITH EXTREME CAUTION AND ONLY IF YOU HAVE ROBUST SERVER-SIDE SANITIZATION.
-                {'name': '/.*/', 'attributes': True, 'classes': True, 'styles': True},
+                # Allow common block elements and their attributes/classes, but explicitly disallow 'style'
+                {'name': 'p', 'attributes': {'class': True}},
+                {'name': 'div', 'attributes': {'class': True}},
+                {'name': 'h1', 'attributes': {'class': True}},
+                {'name': 'h2', 'attributes': {'class': True}},
+                {'name': 'h3', 'attributes': {'class': True}},
+                {'name': 'h4', 'attributes': {'class': True}},
+                {'name': 'h5', 'attributes': {'class': True}},
+                {'name': 'h6', 'attributes': {'class': True}},
+                {'name': 'blockquote', 'attributes': {'class': True}},
+                {'name': 'ul', 'attributes': {'class': True}},
+                {'name': 'ol', 'attributes': {'class': True}},
+                {'name': 'li', 'attributes': {'class': True}},
+                {'name': 'table', 'attributes': {'class': True}},
+                {'name': 'thead', 'attributes': {'class': True}},
+                {'name': 'tbody', 'attributes': {'class': True}},
+                {'name': 'tr', 'attributes': {'class': True}},
+                {'name': 'th', 'attributes': {'class': True}},
+                {'name': 'td', 'attributes': {'class': True}},
 
-                # Alternatively, you can be more specific, e.g.:
-                # {'name': 'div', 'attributes': True, 'classes': True, 'styles': True},
-                # {'name': 'span', 'attributes': True, 'classes': True, 'styles': True},
-                # {'name': 'iframe', 'attributes': {'src': True, 'width': True, 'height': True, 'frameborder': True}},
-                # {'name': 'script', 'attributes': True}, # Be VERY careful with script tags
-                # {'name': 'style', 'attributes': True},  # Be VERY careful with style tags
+                # Allow common inline elements and their attributes/classes, but explicitly disallow 'style'
+                {'name': 'span', 'attributes': {'class': True}},
+                {'name': 'a', 'attributes': {'href': True, 'target': True, 'class': True}},
+                {'name': 'strong', 'attributes': {'class': True}},
+                {'name': 'em', 'attributes': {'class': True}},
+                {'name': 'b', 'attributes': {'class': True}},
+                {'name': 'i', 'attributes': {'class': True}},
+                {'name': 'u', 'attributes': {'class': True}},
+                {'name': 's', 'attributes': {'class': True}},
+                {'name': 'code', 'attributes': {'class': True}},
+                {'name': 'pre', 'attributes': {'class': True}},
+                {'name': 'img', 'attributes': {'src': True, 'alt': True, 'width': True, 'height': True, 'class': True}},
+                {'name': 'br'},
+
+                # Allow iframes for media embeds, but specify allowed attributes
+                {'name': 'iframe', 'attributes': {'src': True, 'width': True, 'height': True, 'frameborder': True, 'allowfullscreen': True, 'class': True}},
+
+                # You can be more specific about what attributes are allowed.
+                # For example, to allow all attributes *except* style:
+                # {'name': '/.*/', 'attributes': True, 'classes': True, 'styles': False},
+                # This line above would allow all elements and classes, but strip inline styles.
+                # However, it's safer to whitelist specific elements as shown above.
             ],
-            # 'disallow': [
-            #     # You can also disallow specific elements or attributes for security
-            #     {'name': 'script'},
-            #     {'name': '/.*/', 'attributes': {'on*': True}}, # Disallow all 'on' attributes (e.g., onclick)
-            # ]
+            'disallow': [
+                # Explicitly disallow the 'style' attribute on all elements
+                # This is a very effective way to strip inline styles from pasted content.
+                {'name': '/.*/', 'attributes': {'style': True}},
+
+                # You might also want to disallow certain attributes that can cause XSS,
+                # like 'on*' event handlers (e.g., onclick, onload).
+                {'name': '/.*/', 'attributes': {'on*': True}},
+
+                # Disallow script tags entirely for security
+                {'name': 'script'},
+                {'name': 'style'}, # Disallow <style> tags if you don't want them in the content
+            ]
         },
     },
     # You can define other configs too
 }
+
 
 TAGGIT_CASE_INSENSITIVE = True
 
