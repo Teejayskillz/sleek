@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 from core.sitemaps import PostSitemap, StaticViewSitemap # Import your sitemap classes
 from django.contrib.sitemaps.views import sitemap
 from core.views import robots_txt
@@ -30,6 +31,7 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('robots.txt', robots_txt),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
