@@ -485,7 +485,10 @@
     </a>
 {% endif %}
     </header>
-
+ <div class="ad-slot-container header-ad-container"> {# Added new class for specific control #}
+    {{ ads_by_slug.thumbnail1|safe }}
+</div>
+    
     <!-- Featured Image Banner -->
     {% if post.thumbnail %}
     <div class="featured-image">
@@ -495,6 +498,9 @@
              style="max-height: 500px; object-fit: cover;">
     </div>
     {% endif %}
+    <div class="ad-slot-container header-ad-container"> {# Added new class for specific control #}
+    {{ ads_by_slug.thumbnail2|safe }}
+</div>
     
   
     
