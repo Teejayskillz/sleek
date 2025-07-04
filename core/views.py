@@ -264,3 +264,8 @@ class TagDetailView(ListView):
        
         context['tag'] = Tag.objects.get(slug=self.kwargs['slug']) # This is line 179
         return context
+    
+def robots_txt(request):
+    return render(request, 'robots.txt', content_type='text/plain')
+
+    
