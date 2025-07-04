@@ -1,3 +1,5 @@
+# core/admin.py
+
 from django.contrib import admin
 from django.utils.html import format_html
 from django import forms
@@ -61,7 +63,10 @@ class PostAdmin(admin.ModelAdmin):
     )
     list_editable = ('is_published', 'enable_downloads')
     prepopulated_fields = {'slug': ('title',)}
-    search_fields = ('title', 'content', 'excerpt')
+    
+    # MODIFIED: Added 'seo_title' to search_fields
+    search_fields = ('title', 'content', 'excerpt', 'seo_title') 
+    
     readonly_fields = (
         'get_thumbnail_preview',
         'get_total_downloads',
@@ -75,6 +80,7 @@ class PostAdmin(admin.ModelAdmin):
             'fields': (
                 'title',
                 'slug',
+                'seo_title', # MODIFIED: Added 'seo_title' here
                 'content',
                 'excerpt',
                 'thumbnail',
