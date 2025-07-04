@@ -110,11 +110,11 @@ class HomepageSection(models.Model):
 
 class DownloadQuality(models.Model):
     QUALITY_CHOICES = [
-        ('360p', '360p'),
-        ('480p', '480p'), 
-        ('720p', '720p (HD)'),
-        ('1080p', '1080p (FHD)'),
-        ('4K', '4K (UHD)'),
+        ('360p', 'DOWNLOAD [360p]'),
+        ('480p', 'DOWNLOAD [480p]'), 
+        ('720p', 'DOWNLOAD [720p (HD)]'),
+        ('1080p', 'DOWNLOAD [1080p (FHD)]'),
+        ('4K', 'DOWNLOAD [4K (UHD)]'),
     ]
     
     post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='qualities')
