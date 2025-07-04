@@ -1,55 +1,33 @@
 # ads/context_processors.py
-from django.db import models # <-- ADDED THIS IMPORT
-from .models import AdPlacement, Ad
-from django.utils import timezone
-import random # Import random for a potentially safer way to get one random item
 
-def active_ads(request):
+from .models import Ad
+
+def ads_context(request):
     """
-    Context processor to make active ads available in all templates.
-    It fetches a random active ad for each active ad placement.
+    A custom context processor to make active ad content available globally
+    to all templates.
+
+    This function fetches all active ads and organizes them by their slug
+    into a dictionary, which is then added to the template context.
+
+    Args:
+        request: The current HttpRequest object.
+
+    Returns:
+        dict: A dictionary containing 'ads_by_slug', where keys are ad slugs
+              and values are the HTML content of the active ads.
     """
-    context = {}
-    
-    # Ensure AdPlacement and Ad models exist before querying
+    ads_by_slug = {}
     try:
-        # Filter for active placements
-        active_placements = AdPlacement.objects.filter(is_active=True)
+        # Fetch all active ads from the database
+        active_ads = Ad.objects.filter(is_active=True)
+        for ad in active_ads:
+            # Store the ad content, marked as safe, using its slug as the key
+            ads_by_slug[ad.slug] = ad.ad_content
     except Exception as e:
-        # Log the error, but don't break the site
-        print(f"Error fetching AdPlacements: {e}")
-        return {} # Return empty context if models or DB are problematic
+        # Log any errors that occur during ad retrieval
+        print(f"Error fetching ads for context processor: {e}")
+        # In case of an error, return an empty dictionary to prevent template errors
+        ads_by_slug = {}
+    return {'ads_by_slug': ads_by_slug}
 
-    for placement in active_placements:
-        try:
-            # Filter by is_active, and the ad's start/end dates
-            # Corrected: The date filtering should apply directly to Ad model's dates,
-            # not conditionally based on placement's non-existent date fields.
-            now = timezone.now()
-            eligible_ads = Ad.objects.filter(
-                placement=placement,
-                is_active=True
-            ).filter(
-                # Filter for ads where start_date is null OR start_date is in the past/now
-                models.Q(start_date__isnull=True) | models.Q(start_date__lte=now)
-            ).filter(
-                # Filter for ads where end_date is null OR end_date is in the future/now
-                models.Q(end_date__isnull=True) | models.Q(end_date__gte=now)
-            )
-            
-            # If there are eligible ads, pick one randomly and increment views
-            if eligible_ads.exists():
-                # Get all eligible ads and pick one randomly in Python for robustness
-                # This avoids potential DB issues with order_by('?') on some backends
-                ad = random.choice(list(eligible_ads))
-                ad.views += 1
-                ad.save(update_fields=['views']) # Only update the views field
-                context[f'ad_placement_{placement.slug}'] = ad
-            else:
-                context[f'ad_placement_{placement.slug}'] = None # No active ad for this placement
-        except Exception as e:
-            # Log any error for a specific ad/placement, but continue processing others
-            print(f"Error processing ad for placement '{placement.slug}': {e}")
-            context[f'ad_placement_{placement.slug}'] = None # Ensure it's None on error
-
-    return context
