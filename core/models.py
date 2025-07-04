@@ -17,6 +17,12 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    seo_title = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="(e.g., 'Henry Danger S1 EP20 - Series Download'). If left blank, the main title will be used."
+    )
     thumbnail = ResizedImageField(
         size=[300, 450],
         quality=85,
@@ -76,6 +82,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    @property
+    def get_page_title(self):
+        return self.seo_title if self.seo_title else self.title
     
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
