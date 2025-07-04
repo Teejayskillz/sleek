@@ -67,8 +67,8 @@ CKEDITOR_5_CONFIGS = {
             'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote',
             'imageUpload',
             'mediaEmbed',
-            # You might also want 'htmlEmbed' if you plan to paste raw iframe codes directly
-            # 'htmlEmbed',
+            'htmlEmbed', # This is crucial for direct raw HTML input via a button
+            'sourceEditing', # Often paired with htmlEmbed for a full source view
         ],
         'image': {
             'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'],
@@ -82,11 +82,31 @@ CKEDITOR_5_CONFIGS = {
         'mediaEmbed': {
             'previewsInData': True,
         },
-        # If you were to add 'htmlEmbed' to the toolbar, you'd configure it here too:
-        # 'htmlEmbed': {
-        #     'showPreviews': True,
-        #     # 'sanitizeHtml': 'your_sanitizer_function', # Optional: for advanced security
-        # },
+        'htmlEmbed': {
+            'showPreviews': True,
+            # 'sanitizeHtml': 'your_sanitizer_function', # Optional: for advanced security,
+            #                                           # this would be a JS function you provide client-side
+        },
+        # **This is the most important part for general HTML acceptance**
+        'htmlSupport': {
+            'allow': [
+                # This allows all HTML elements (*), with all attributes, classes, and styles.
+                # USE WITH EXTREME CAUTION AND ONLY IF YOU HAVE ROBUST SERVER-SIDE SANITIZATION.
+                {'name': '/.*/', 'attributes': True, 'classes': True, 'styles': True},
+
+                # Alternatively, you can be more specific, e.g.:
+                # {'name': 'div', 'attributes': True, 'classes': True, 'styles': True},
+                # {'name': 'span', 'attributes': True, 'classes': True, 'styles': True},
+                # {'name': 'iframe', 'attributes': {'src': True, 'width': True, 'height': True, 'frameborder': True}},
+                # {'name': 'script', 'attributes': True}, # Be VERY careful with script tags
+                # {'name': 'style', 'attributes': True},  # Be VERY careful with style tags
+            ],
+            # 'disallow': [
+            #     # You can also disallow specific elements or attributes for security
+            #     {'name': 'script'},
+            #     {'name': '/.*/', 'attributes': {'on*': True}}, # Disallow all 'on' attributes (e.g., onclick)
+            # ]
+        },
     },
     # You can define other configs too
 }
