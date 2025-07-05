@@ -310,3 +310,5 @@ LOGGING = {
         'level': 'WARNING', # Only show WARNINGs and above by default
     }
 }
+
+TAGGIT_TAG_MODEL = 'core.MyCustomTag' 

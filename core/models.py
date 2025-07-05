@@ -3,9 +3,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
+from taggit.models import Tag as TaggitTag
 from django_resized import ResizedImageField
 from django_ckeditor_5.fields import CKEditor5Field
 from django.urls import reverse
+from django.utils.text import slugify
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -178,3 +180,16 @@ class Subtitle(models.Model):
     download_url = models.URLField()
     is_auto_generated = models.BooleanField(default=False)
     download_count = models.PositiveIntegerField(default=0)
+    
+class MyCustomTag(TaggitTag):
+    class Meta:
+        proxy = True # Use proxy=True if you just want to add methods/managers without a new table
+
+    def save(self, *args, **kwargs):
+        if not self.slug or self.slug == '-': # Check for empty or problematic slugs
+            self.slug = slugify(self.name)
+            # If slugify(self.name) also results in an empty or problematic slug,
+            # you might want a default like 'untitled-tag' or raise a validation error.
+            if not self.slug or self.slug == '-':
+                self.slug = f"tag-{self.id}" # Fallback to a unique slug
+        super().save(*args, **kwargs)    
