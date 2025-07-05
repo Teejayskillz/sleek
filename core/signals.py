@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import reverse
 from telegram import Bot, constants
 from telegram.error import TelegramError, BadRequest
-from telegram.helpers import escape_markdown # <--- IMPORTANT: ADD THIS IMPORT
+from telegram.helpers import escape_markdown # <--- THIS IMPORT IS CRUCIAL
 from django.contrib.sites.models import Site
 import asyncio
 import logging
@@ -37,7 +37,7 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
         # Also, make sure current_site.domain is correctly configured (e.g., example.com, not localhost:8000)
         post_url = f"http://{current_site.domain}{instance.get_absolute_url()}" # Change to https if applicable
 
-        # --- CRUCIAL CHANGE: ESCAPE MARKDOWN SPECIAL CHARACTERS ---
+        # --- THIS IS THE CRITICAL PART: ESCAPING MARKDOWN SPECIAL CHARACTERS ---
         # Use escape_markdown() with version=2 for MARKDOWN_V2 parsing
         escaped_title = escape_markdown(instance.title, version=2)
         
@@ -50,6 +50,7 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
             escaped_excerpt_or_content = escape_markdown(content_snippet, version=2)
 
         # The text for the "Read More Here" link itself might contain special characters if you customize it
+        # It's good practice to escape all text parts of the message.
         escaped_read_more_text = escape_markdown("Read More Here", version=2)
 
         message_text = f"📢 **New Post: {escaped_title}**\n\n"
