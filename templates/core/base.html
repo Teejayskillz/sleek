@@ -8,47 +8,48 @@
     <meta name="description" content="{% block meta_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV. Get movie reviews, trailers, and more.' }}{% endblock %}">
 
     {# Open Graph Tags (for Facebook, WhatsApp, LinkedIn) #}
-    <meta property="og:locale" content="en_US"/> {# You can make this dynamic if you have multiple languages #}
+    <meta property="og:locale" content="en_US"/>
     <meta property="og:site_name" content="Hypeblog9jaTV"/>
     <meta property="og:title" content="{% block og_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Hypeblog9jaTV">
     
-    {# IMPORTANT: Ensure post.get_absolute_url generates the full path for a post #}
-    <meta property="og:url" content="{{ request.build_absolute_uri(post.get_absolute_url) }}">
+    {# CORRECTED: Use filter syntax for absolute URL #}
+    <meta property="og:url" content="{{ post.get_absolute_url|request.build_absolute_uri }}">
     
-    <meta property="og:type" content="article"> {# Use "article" for blog posts, "video.movie" for movie pages if appropriate #}
+    <meta property="og:type" content="article">
     <meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV.' }}{% endblock %}">
     
-    {# PRIMARY OG IMAGE TAG - Using the correct absolute URL method #}
-    <meta property="og:image" content="{% if post.thumbnail %}{{ request.build_absolute_uri(post.thumbnail.url) }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
+    {# PRIMARY OG IMAGE TAG - CORRECTED: Use filter syntax #}
+    <meta property="og:image" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
     
-    {# REDUNDANT OG IMAGE TAGS (Good Practice, especially for HTTPS) #}
-    <meta property="og:image:url" content="{% if post.thumbnail %}{{ request.build_absolute_uri(post.thumbnail.url) }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
-    <meta property="og:image:secure_url" content="{% if post.thumbnail %}{{ request.build_absolute_uri(post.thumbnail.url) }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
+    {# REDUNDANT OG IMAGE TAGS - CORRECTED: Use filter syntax #}
+    <meta property="og:image:url" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
+    <meta property="og:image:secure_url" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
     
     {% if post.thumbnail %}
-        {# Recommend image dimensions for better display on social media (1200x630 is common) #}
-        {# If you store actual image width/height in your model via a custom field or package, use them here #}
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
     {% endif %}
 
-    {# Optional: Article specific meta data (like the working site uses) #}
     {% if post.published_date %}<meta property="article:published_time" content="{{ post.published_date|date:'c' }}"/>{% endif %}
-    {% if post.published_date %}<meta property="article:modified_time" content="{{ post.published_date|date:'c' }}" />{% endif %} {# You might have an 'updated_at' field for this #}
+    {% if post.published_date %}<meta property="article:modified_time" content="{{ post.published_date|date:'c' }}" />{% endif %}
     {% if post.published_date %}<meta property="og:updated_time" content="{{ post.published_date|date:'c' }}" />{% endif %}
     {% if post.category %}<meta property="article:section" content="{{ post.category.name }}" />{% endif %}
 
-    {# Twitter Card Tags (for Twitter/X, and often used as fallback) #}
+    {# Twitter Card Tags #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Hypeblog9jaTV">
-    <meta name="twitter:url" content="{{ request.build_absolute_uri(post.get_absolute_url) }}">
-    <meta name="twitter:description" content="{% block twitter_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV.' }}{% endblock %}">
-    <meta name="twitter:image" content="{% if post.thumbnail %}{{ request.build_absolute_uri(post.thumbnail.url) }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
-    <meta name="twitter:site" content="@Hypeblog9jaTV"> {# Optional: Replace with your actual Twitter handle #}
-    <meta name="twitter:creator" content="@YourCreatorHandle"> {# Optional: Author's Twitter handle #}
+    {# CORRECTED: Use filter syntax for absolute URL #}
+    <meta name="twitter:url" content="{{ post.get_absolute_url|request.build_absolute_uri }}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV Shows on Hypeblog9jaTV.' }}{% endblock %}">
     
-    {# Canonical URL for SEO purposes (important for preventing duplicate content issues) #}
-    <link rel="canonical" href="{{ request.build_absolute_uri(post.get_absolute_url) }}" />
+    {# CORRECTED: Use filter syntax for absolute URL #}
+    <meta name="twitter:image" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
+    
+    <meta name="twitter:site" content="@Hypeblog9jaTV">
+    <meta name="twitter:creator" content="@YourCreatorHandle">
+    
+    {# Canonical URL - CORRECTED: Use filter syntax #}
+    <link rel="canonical" href="{{ post.get_absolute_url|request.build_absolute_uri }}" />
 
     {# Your favicon links will now correctly point to: /static/images/favicon.ico #}
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
