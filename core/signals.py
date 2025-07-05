@@ -55,7 +55,7 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
         escaped_read_more_text = escape_markdown("Read More Here", version=2)
 
         message_text = f"📢 **New Post: {escaped_title}**\n\n"
-        message_text += f"{escaped_excerpt_or_content}...\n\n"
+        message_text += f"{escaped_excerpt_or_content}\n\n"
         message_text += f"[{escaped_read_more_text}]({post_url})" # The URL part doesn't need escaping
 
         async def send_telegram_message_async():
