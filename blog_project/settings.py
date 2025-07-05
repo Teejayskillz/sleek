@@ -60,7 +60,6 @@ MEDIA_ROOT = BASE_DIR / 'media' # Ensure this is correctly set
 
 # Example CKEditor 5 config with image upload
 # settings.py
-
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': [
@@ -69,6 +68,7 @@ CKEDITOR_5_CONFIGS = {
             'mediaEmbed',
             'htmlEmbed',
             'sourceEditing',
+            'removeFormat', # Add a "Remove Format" button for user convenience
         ],
         'image': {
             'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'],
@@ -84,13 +84,14 @@ CKEDITOR_5_CONFIGS = {
         },
         'htmlEmbed': {
             'showPreviews': True,
-            # 'sanitizeHtml': 'your_sanitizer_function', # Optional: for advanced security,
-            #                                           # this would be a JS function you provide client-side
+            # 'sanitizeHtml': 'your_sanitizer_function', # Client-side JS function for custom sanitation
         },
-        # --- IMPORTANT: Modify this section for cleaner pasting ---
+        # --- IMPORTANT: Configure htmlSupport to strip CSS on paste ---
         'htmlSupport': {
             'allow': [
-                # Allow common block elements and their attributes/classes, but explicitly disallow 'style'
+                # Allow basic block elements.
+                # By not specifying 'styles' here, you implicitly disallow them.
+                # Only allow 'class' attribute if you plan to use pre-defined CSS classes.
                 {'name': 'p', 'attributes': {'class': True}},
                 {'name': 'div', 'attributes': {'class': True}},
                 {'name': 'h1', 'attributes': {'class': True}},
@@ -107,10 +108,10 @@ CKEDITOR_5_CONFIGS = {
                 {'name': 'thead', 'attributes': {'class': True}},
                 {'name': 'tbody', 'attributes': {'class': True}},
                 {'name': 'tr', 'attributes': {'class': True}},
-                {'name': 'th', 'attributes': {'class': True}},
-                {'name': 'td', 'attributes': {'class': True}},
+                {'name': 'th', 'attributes': {'class': True, 'colspan': True, 'rowspan': True}}, # Allow colspan/rowspan for table cells
+                {'name': 'td', 'attributes': {'class': True, 'colspan': True, 'rowspan': True}}, # Allow colspan/rowspan for table cells
 
-                # Allow common inline elements and their attributes/classes, but explicitly disallow 'style'
+                # Allow basic inline elements
                 {'name': 'span', 'attributes': {'class': True}},
                 {'name': 'a', 'attributes': {'href': True, 'target': True, 'class': True}},
                 {'name': 'strong', 'attributes': {'class': True}},
@@ -124,34 +125,25 @@ CKEDITOR_5_CONFIGS = {
                 {'name': 'img', 'attributes': {'src': True, 'alt': True, 'width': True, 'height': True, 'class': True}},
                 {'name': 'br'},
 
-                # Allow iframes for media embeds, but specify allowed attributes
+                # Allow iframes for media embeds, specify allowed attributes
                 {'name': 'iframe', 'attributes': {'src': True, 'width': True, 'height': True, 'frameborder': True, 'allowfullscreen': True, 'class': True}},
-
-                # You can be more specific about what attributes are allowed.
-                # For example, to allow all attributes *except* style:
-                # {'name': '/.*/', 'attributes': True, 'classes': True, 'styles': False},
-                # This line above would allow all elements and classes, but strip inline styles.
-                # However, it's safer to whitelist specific elements as shown above.
             ],
             'disallow': [
-                # Explicitly disallow the 'style' attribute on all elements
-                # This is a very effective way to strip inline styles from pasted content.
+                # Explicitly disallow the 'style' attribute on ALL elements (very important for your goal)
                 {'name': '/.*/', 'attributes': {'style': True}},
 
-                # You might also want to disallow certain attributes that can cause XSS,
-                # like 'on*' event handlers (e.g., onclick, onload).
+                # Disallow all 'on*' event handlers for security (e.g., onclick, onload)
                 {'name': '/.*/', 'attributes': {'on*': True}},
 
                 # Disallow script tags entirely for security
                 {'name': 'script'},
-                {'name': 'style'}, # Disallow <style> tags if you don't want them in the content
+                {'name': 'style'}, # Disallow <style> tags embedded in content
+                {'name': 'link', 'attributes': {'rel': True, 'href': True}}, # Disallow <link> tags that might pull in stylesheets
             ]
         },
     },
     # You can define other configs too
 }
-
-
 TAGGIT_CASE_INSENSITIVE = True
 
 MIDDLEWARE = [
