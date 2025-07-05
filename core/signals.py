@@ -17,7 +17,7 @@ from .models import Post
 @receiver(post_save, sender=Post)
 def auto_post_to_telegram(sender, instance, created, **kwargs):
     # Keep this for a while to confirm your code is reloading!
-    logger.critical("--- SIGNALS.PY VERSION: 2025-07-06T00:55 --- Loading now!") 
+    logger.critical("--- SIGNALS.PY VERSION: 2025-07-06T00:66 --- Loading now!") 
     logger.info(f"Signal triggered for Post: '{instance.title}', Created: {created}, Published: {instance.is_published}")
 
     if created and instance.is_published: # Ensure post is new and published
