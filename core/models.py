@@ -119,10 +119,10 @@ class HomepageSection(models.Model):
 
 class DownloadQuality(models.Model):
     QUALITY_CHOICES = [
-        ('360p', 'DOWNLOAD [360p]'),
-        ('480p', 'DOWNLOAD [480p]'), 
-        ('720p', 'DOWNLOAD [720p (HD)]'),
-        ('1080p', 'DOWNLOAD [1080p (FHD)]'),
+        ('360p', 'DOWNLOAD MOVIE [360p]'),
+        ('480p', 'DOWNLOAD MOVIE [480p]'), 
+        ('720p', 'DOWNLOAD MOVIE [720p (HD)]'),
+        ('1080p', 'DOWNLOAD MOVIE 1080p (FHD)]'),
         ('4K', 'DOWNLOAD [4K (UHD)]'),
         ('EP1', 'DOWNLOAD EPISODE 1'),
         ('EP2', 'DOWNLOAD EPISODE 2'),
