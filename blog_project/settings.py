@@ -248,9 +248,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # TELEGRAM SETTINGS
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') # Read from .env
 _telegram_channel_ids_str = os.getenv('TELEGRAM_CHANNEL_IDS', '')
-TELEGRAM_CHANNEL_IDS = [
-    chat_id.strip() for chat_id in _telegram_channel_ids_str.split(',') if chat_id.strip()
-] # Read from .env
+TELEGRAM_CHANNEL_IDS = TELEGRAM_CHANNEL_IDS = [
+    '@hypeblog9ja',
+    '@naijarocks_movies',
+    '@naijarocks_com_ng',
+    '@naijarockscom', 
+    '@naijarocksfiles',
+]
 
 # Django Sites Framework
 SITE_ID = 1
