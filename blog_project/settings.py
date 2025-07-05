@@ -195,7 +195,7 @@ DATABASES = {
             # For older MySQL versions or specific needs:
             'charset': 'utf8mb4',
         },
-        
+
     }
 }
 
@@ -232,7 +232,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# https://docs.djangoproject.com/en/5.2/topics/static-files/
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -245,8 +245,64 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Local path where files are saved
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# TELEGRAM SETTINGS
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN') # Read from .env
-TELEGRAM_CHANNEL_ID = os.getenv('TELEGRAM_CHANNEL_ID') # Read from .env
+_telegram_channel_ids_str = os.getenv('TELEGRAM_CHANNEL_IDS', '')
+TELEGRAM_CHANNEL_IDS = [
+    chat_id.strip() for chat_id in _telegram_channel_ids_str.split(',') if chat_id.strip()
+] # Read from .env
 
 # Django Sites Framework
 SITE_ID = 1
+
+# LOGGING configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': { # Define how log messages will be formatted
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': { # Output logs to the console (where your runserver is)
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple', # Use the simple formatter
+        },
+        # You could add a file handler for production, e.g.:
+        # 'file': {
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+        #     'maxBytes': 1024 * 1024 * 5,  # 5 MB
+        #     'backupCount': 5,
+        #     'formatter': 'verbose',
+        # },
+    },
+    'loggers': {
+        'django': { # Django's built-in logger
+            'handlers': ['console'],
+            'level': 'INFO', # Set to DEBUG for more detailed Django internal logs
+            'propagate': False,
+        },
+        'core': { # Logger for your 'core' app (where signals.py is)
+            'handlers': ['console'],
+            'level': 'INFO', # Set to INFO or DEBUG to see your signal prints/logs
+            'propagate': False, # Don't pass up to Django's root logger
+        },
+        # Add other app loggers if needed
+        # 'ads': {
+        #     'handlers': ['console'],
+        #     'level': 'INFO',
+        #     'propagate': False,
+        # },
+    },
+    'root': { # Catch-all for any logger not specifically configured
+        'handlers': ['console'],
+        'level': 'WARNING', # Only show WARNINGs and above by default
+    }
+}
