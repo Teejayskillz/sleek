@@ -2,14 +2,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Watch Latest Movies & TV Shows Online - Hypeblog9jaTV{% endblock %}</title>
     <meta name="description" content="Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV. Get movie reviews, trailers, and more.">
+
+    {# Open Graph Tags (for Facebook, WhatsApp, LinkedIn) #}
     <meta property="og:title" content="{% block og_title %}{{ post.title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Hypeblog9jaTV">
     <meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV.' }}{% endblock %}">
-    <meta property="og:image" content="{% block og_image %}{{ post.thumbnail.url|default:'https://www.hypeblog9jatv.com/static/images/default_poster.jpg' }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% if post.thumbnail %}{{ request.build_absolute_uri }}{{ post.thumbnail.url }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="article"> {# Or "video.movie", "website" #}
+    <meta property="og:site_name" content="Hypeblog9jaTV"> {# Recommended #}
+
+    {% if post.thumbnail %}
+        {# Recommended image dimensions for better display #}
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        {# If you store actual image width/height in your model: #}
+        {# <meta property="og:image:width" content="{{ post.thumbnail.width }}"> #}
+        {# <meta property="og:image:height" content="{{ post.thumbnail.height }}"> #}
+    {% endif %}
+
+    {# Twitter Card Tags (for Twitter/X, and often used as fallback) #}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ post.title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Hypeblog9jaTV">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV.' }}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% if post.thumbnail %}{{ request.build_absolute_uri }}{{ post.thumbnail.url }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}{% endblock %}">
+    <meta name="twitter:site" content="@Hypeblog9jaTV"> {# Optional: Your Twitter handle #}
+    <meta name="twitter:creator" content="@YourCreatorHandle"> {# Optional: Author's Twitter handle #}
 
     {# Your favicon links will now correctly point to: /static/images/favicon.ico #}
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
