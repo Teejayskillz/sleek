@@ -65,7 +65,8 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
                     await bot.send_message(
                         chat_id=chat_id,
                         text=message_text,
-                        parse_mode=None,
+                        parse_mode=constants.ParseMode.MARKDOWN_V2,
+
                     )
                     logger.info(f"Successfully posted '{instance.title}' to Telegram channel: {chat_id}")
                 except BadRequest as e: # Catches specific 400 errors from Telegram API
