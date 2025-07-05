@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+ <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Hypeblog9jaTV</title>
     <meta name="description" content="{% block meta_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV. Get movie reviews, trailers, and more.' }}{% endblock %}">
@@ -12,20 +12,19 @@
     <meta property="og:site_name" content="Hypeblog9jaTV"/>
     <meta property="og:title" content="{% block og_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Hypeblog9jaTV">
     
-    {# CORRECTED: Use filter syntax for absolute URL #}
-    <meta property="og:url" content="{{ post.get_absolute_url|request.build_absolute_uri }}">
+    {# Use the pre-calculated absolute URL from the view #}
+    <meta property="og:url" content="{{ post_absolute_url }}">
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Hypeblog9jaTV.' }}{% endblock %}">
     
-    {# PRIMARY OG IMAGE TAG - CORRECTED: Use filter syntax #}
-    <meta property="og:image" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
-    
-    {# REDUNDANT OG IMAGE TAGS - CORRECTED: Use filter syntax #}
-    <meta property="og:image:url" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
-    <meta property="og:image:secure_url" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
+    {# Use the pre-calculated absolute URL for thumbnail #}
+    <meta property="og:image" content="{{ thumbnail_absolute_url }}">
+    <meta property="og:image:url" content="{{ thumbnail_absolute_url }}">
+    <meta property="og:image:secure_url" content="{{ thumbnail_absolute_url }}">
     
     {% if post.thumbnail %}
+        {# If you have width/height stored in your model, use them here #}
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
     {% endif %}
@@ -38,19 +37,18 @@
     {# Twitter Card Tags #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Hypeblog9jaTV">
-    {# CORRECTED: Use filter syntax for absolute URL #}
-    <meta name="twitter:url" content="{{ post.get_absolute_url|request.build_absolute_uri }}">
+    {# Use the pre-calculated absolute URL #}
+    <meta name="twitter:url" content="{{ post_absolute_url }}">
     <meta name="twitter:description" content="{% block twitter_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV Shows on Hypeblog9jaTV.' }}{% endblock %}">
     
-    {# CORRECTED: Use filter syntax for absolute URL #}
-    <meta name="twitter:image" content="{% if post.thumbnail %}{{ post.thumbnail.url|request.build_absolute_uri }}{% else %}https://www.hypeblog9jatv.com/static/images/default_poster.jpg{% endif %}">
+    {# Use the pre-calculated absolute URL for thumbnail #}
+    <meta name="twitter:image" content="{{ thumbnail_absolute_url }}">
     
     <meta name="twitter:site" content="@Hypeblog9jaTV">
     <meta name="twitter:creator" content="@YourCreatorHandle">
     
-    {# Canonical URL - CORRECTED: Use filter syntax #}
-    <link rel="canonical" href="{{ post.get_absolute_url|request.build_absolute_uri }}" />
-
+    {# Canonical URL - Use the pre-calculated absolute URL #}
+    <link rel="canonical" href="{{ post_absolute_url }}" />
     {# Your favicon links will now correctly point to: /static/images/favicon.ico #}
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">

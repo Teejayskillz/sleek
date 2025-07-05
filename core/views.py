@@ -9,6 +9,7 @@ from taggit.models import Tag
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+from django.conf import settings
 
 def home(request):
     # Get all active homepage sections
@@ -118,7 +119,7 @@ class PostDetailView(DetailView):
             
             # SEO: Redirect if category doesn't match (301 permanent)
             if post.category.slug != self.kwargs['category']:
-                return redirect('post_detail', 
+                return redirect('post_detail', # Use the name of your URL pattern for the post detail
                               category=post.category.slug,
                               slug=post.slug,
                               permanent=True)
@@ -127,7 +128,26 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        post = self.object
+        post = self.object # 'self.object' is already set by DetailView's get_object()
+
+        # --- START: ADDED OG/Twitter Absolute URL Logic ---
+        # Calculate absolute URL for the post
+        # post.get_absolute_url() returns a relative URL, e.g., /hollywood-movie/tornado-2025/
+        post_absolute_url = self.request.build_absolute_uri(post.get_absolute_url())
+        context['post_absolute_url'] = post_absolute_url
+
+        # Calculate absolute URL for the thumbnail
+        if post.thumbnail:
+            # post.thumbnail.url returns a relative URL, e.g., /media/thumbnails/my_image.jpg
+            thumbnail_absolute_url = self.request.build_absolute_uri(post.thumbnail.url)
+            context['thumbnail_absolute_url'] = thumbnail_absolute_url
+        else:
+            # Construct the absolute URL for the default static image
+            # Assumes your STATIC_URL leads to a publicly accessible directory
+            default_image_relative_url = settings.STATIC_URL + 'images/default_poster.jpg'
+            context['thumbnail_absolute_url'] = self.request.build_absolute_uri(default_image_relative_url)
+        # --- END: ADDED OG/Twitter Absolute URL Logic ---
+
 
         # Download-related context
         download_data = {
