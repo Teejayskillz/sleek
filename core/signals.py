@@ -31,7 +31,7 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
                     chat_id=settings.TELEGRAM_CHANNEL_ID,
                     text=message_text,
                     parse_mode=constants.ParseMode.MARKDOWN,
-                    timeout=20 # <--- ADD A TIMEOUT (in seconds). Default is often 5-10s.
+                    timeout='Markdown' # <--- ADD A TIMEOUT (in seconds). Default is often 5-10s.
                 )
 
             asyncio.run(send_telegram_message_async())
