@@ -16,10 +16,11 @@ from .models import Post
 
 @receiver(post_save, sender=Post)
 def auto_post_to_telegram(sender, instance, created, **kwargs):
-    logger.critical("--- SIGNALS.PY VERSION: 2025-07-05T11:40 --- Loading now!") # Keep for now to confirm reload
+    # Keep this for a while to confirm your code is reloading!
+    logger.critical("--- SIGNALS.PY VERSION: 2025-07-06T00:35 --- Loading now!") 
     logger.info(f"Signal triggered for Post: '{instance.title}', Created: {created}, Published: {instance.is_published}")
 
-    if created and instance.is_published:
+    if created and instance.is_published: # Ensure post is new and published
         bot_token = settings.TELEGRAM_BOT_TOKEN
         channel_ids = getattr(settings, 'TELEGRAM_CHANNEL_IDS', [])
         
@@ -33,46 +34,61 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
         bot = Bot(token=bot_token)
 
         current_site = Site.objects.get_current()
-        post_url = f"http://{current_site.domain}{instance.get_absolute_url()}" # Change to https if applicable
+        # Ensure the URL is fully qualified with the domain
+        # Adjust 'http' to 'https' if your production site uses HTTPS
+        post_url = f"http://{current_site.domain}{instance.get_absolute_url()}" 
 
+        # --- GET THUMBNAIL URL ---
+        # IMPORTANT: Replace 'instance.image' with your actual ImageField name 
+        # (e.g., instance.thumbnail, instance.featured_image)
+        photo_url = None
+        if hasattr(instance, 'image') and instance.image and instance.image.url:
+            photo_url = f"http://{current_site.domain}{instance.image.url}" # Adjust to https if applicable
+        elif hasattr(instance, 'thumbnail') and instance.thumbnail and instance.thumbnail.url:
+            photo_url = f"http://{current_site.domain}{instance.thumbnail.url}"
+        
+        if not photo_url:
+            logger.warning(f"Post '{instance.title}' has no image/thumbnail. Will send a text-only message.")
+
+        # --- ESCAPING MARKDOWN SPECIAL CHARACTERS FOR CAPTION ---
         escaped_title = escape_markdown(instance.title, version=2)
         
-        raw_excerpt_or_content = getattr(instance, 'excerpt', None)
         content_for_message = ""
-
-        if raw_excerpt_or_content:
-            content_for_message = raw_excerpt_or_content
+        if getattr(instance, 'excerpt', None):
+            content_for_message = instance.excerpt
         else:
-            # Only take a snippet if content is long
-            if len(instance.content) > 200:
-                content_for_message = instance.content[:200]
-            else:
-                content_for_message = instance.content
-        
-        # --- CRITICAL CHANGE HERE: Append '...' *before* escaping ---
-        # Add the ellipsis directly to the content string, then escape the whole thing.
-        # This ensures the dots in '...' are also escaped if necessary.
-        if len(instance.content) > 200 or raw_excerpt_or_content: # Only add ellipsis if it's an excerpt or truncated content
-             content_for_message += "..."
+            content_for_message = instance.content
+
+        if len(content_for_message) > 200:
+            content_for_message = content_for_message[:200] + "..."
+        elif getattr(instance, 'excerpt', None):
+            content_for_message += "..."
 
         escaped_excerpt_or_content = escape_markdown(content_for_message, version=2)
 
-        escaped_read_more_text = escape_markdown("Read More Here", version=2)
-
-        # Removed the emoji that might be corrupted in display due to encoding issues
-        message_text = f"**New Post: {escaped_title}**\n\n"
-        message_text += f"{escaped_excerpt_or_content}\n\n" # No need for '...' here anymore
-        message_text += f"[{escaped_read_more_text}]({post_url})"
+        # --- CONSTRUCT CAPTION TEXT WITH DIRECT POST URL ---
+        caption_text = f"📢 **{escaped_title}**\n\n"
+        caption_text += f"{escaped_excerpt_or_content}\n\n"
+        caption_text += f"🔗 {post_url}" # <--- CHANGED THIS LINE TO DISPLAY THE FULL URL DIRECTLY
 
         async def send_telegram_message_async():
             for chat_id in channel_ids:
                 try:
                     logger.info(f"Attempting to send '{instance.title}' to Telegram channel: {chat_id}")
-                    await bot.send_message(
-                        chat_id=chat_id,
-                        text=message_text,
-                        parse_mode=constants.ParseMode.MARKDOWN_V2 # Back to MarkdownV2
-                    )
+                    
+                    if photo_url:
+                        await bot.send_photo(
+                            chat_id=chat_id,
+                            photo=photo_url,
+                            caption=caption_text,
+                            parse_mode=constants.ParseMode.MARKDOWN_V2
+                        )
+                    else:
+                        await bot.send_message(
+                            chat_id=chat_id,
+                            text=caption_text,
+                            parse_mode=constants.ParseMode.MARKDOWN_V2
+                        )
                     logger.info(f"Successfully posted '{instance.title}' to Telegram channel: {chat_id}")
                 except BadRequest as e:
                     logger.error(f"Telegram BadRequest Error for channel {chat_id} while posting '{instance.title}': {e}")
@@ -81,6 +97,7 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
                 except Exception as e:
                     logger.error(f"An unexpected error occurred for channel {chat_id} while posting '{instance.title}' to Telegram: {e}")
 
+        # Ensure event loop is handled correctly for Django's sync context
         try:
             loop = asyncio.get_event_loop()
         except RuntimeError:
