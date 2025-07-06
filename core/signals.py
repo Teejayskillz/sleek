@@ -15,12 +15,12 @@ logger = logging.getLogger(__name__)
 from .models import Post
 
 @receiver(post_save, sender=Post)
-def auto_post_to_telegram(sender, instance, created, **kwargs):
-    # Keep this for a while to confirm your code is reloading!
-    logger.critical("--- SIGNALS.PY VERSION: 2025-07-06T00:66 --- Loading now!") 
-    logger.info(f"Signal triggered for Post: '{instance.title}', Created: {created}, Published: {instance.is_published}")
+def auto_post_to_telegram(sender, instance, **kwargs): # 'created' is removed as it's not strictly needed in the condition below
+    # Removed debug logger.critical lines.
+    logger.info(f"Signal triggered for Post: '{instance.title}', Created: {kwargs.get('created')}, Published: {instance.is_published}")
 
-    if created and instance.is_published: # Ensure post is new and published
+    # --- FIX APPLIED HERE: Removed 'created and' from the condition ---
+    if instance.is_published: # Post to Telegram if the post is published (whether new OR updated)
         bot_token = settings.TELEGRAM_BOT_TOKEN
         channel_ids = getattr(settings, 'TELEGRAM_CHANNEL_IDS', [])
         
@@ -38,13 +38,12 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
         # Adjust 'http' to 'https' if your production site uses HTTPS
         post_url = f"http://{current_site.domain}{instance.get_absolute_url()}" 
 
-        # --- IMPORTANT NEW STEP: ESCAPE THE POST_URL ITSELF ---
         # When displaying a raw URL in MarkdownV2, its special characters must also be escaped.
         escaped_post_url = escape_markdown(post_url, version=2)
-        logger.critical(f"DEBUG: Original URL: {post_url}, Escaped URL: {escaped_post_url}") # Helpful debug line
 
         # --- GET THUMBNAIL URL ---
         # IMPORTANT: Replace 'instance.image' with your actual ImageField name 
+        # (e.g., instance.thumbnail, instance.featured_image)
         photo_url = None
         if hasattr(instance, 'image') and instance.image and instance.image.url:
             photo_url = f"http://{current_site.domain}{instance.image.url}" # Adjust to https if applicable
@@ -73,7 +72,7 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
         # --- CONSTRUCT CAPTION TEXT WITH DIRECT ESCAPED POST URL ---
         caption_text = f"📢 **{escaped_title}**\n\n"
         caption_text += f"{escaped_excerpt_or_content}\n\n"
-        caption_text += f"🔗 {escaped_post_url}" # <--- NOW USING THE ESCAPED URL
+        caption_text += f"🔗 {escaped_post_url}"
 
         async def send_telegram_message_async():
             for chat_id in channel_ids:
@@ -85,7 +84,7 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
                             chat_id=chat_id,
                             photo=photo_url,
                             caption=caption_text,
-                            parse_mode=constants.ParseMode.MARKDOWN_V2 # This should work now
+                            parse_mode=constants.ParseMode.MARKDOWN_V2
                         )
                     else:
                         await bot.send_message(
@@ -113,4 +112,5 @@ def auto_post_to_telegram(sender, instance, created, **kwargs):
         else:
             loop.run_until_complete(send_telegram_message_async())
     else:
-        logger.info(f"Post '{instance.title}' not created or not published, skipping Telegram post.")
+        # Changed log message for clarity when skipping
+        logger.info(f"Post '{instance.title}' not published, skipping Telegram post.")
