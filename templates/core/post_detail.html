@@ -10,7 +10,8 @@
 
     <header class="post-header my-4">
         <div class="d-flex justify-content-between align-items-center">
-            <h1 class="display-4">{{ post.title }}</h1>
+            {# FIX 1: Long Titles - Added text-break class from Bootstrap if available, otherwise CSS handles it #}
+            <h1 class="display-4 post-title-responsive">{{ post.title }}</h1>
         </div>
         <div class="text-muted mb-3">
             Published on {{ post.published_date|date:"F j, Y" }}
@@ -48,6 +49,7 @@
         {{ ads_by_slug.thumbnail2|safe }}
     </div>
 
+    {# FIX 2: Embedded Videos - post.content can contain videos, so we target them within this div #}
     <div class="post-content mb-5">
         {{ post.content|safe }}
     </div>
@@ -301,6 +303,70 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 /* Using CSS variables defined in core/base.html */
+
+/* --- FIXES START HERE --- */
+
+/* Fix 1: Long Titles on Mobile */
+.post-title-responsive {
+    word-wrap: break-word;     /* Ensure long words break */
+    overflow-wrap: break-word; /* Modern version of word-wrap */
+    max-width: 100%;           /* Ensure it respects container width */
+    font-size: 2.5rem;         /* Default desktop font size */
+    line-height: 1.2;          /* Ensure good line spacing */
+}
+
+@media (max-width: 768px) { /* Adjust breakpoint if titles still look bad on tablets */
+    .post-title-responsive {
+        font-size: 2rem; /* Slightly smaller for tablets */
+    }
+}
+
+@media (max-width: 576px) { /* For smaller mobile screens */
+    .post-title-responsive {
+        font-size: 1.8rem; /* Even smaller for phones */
+        line-height: 1.15; /* Tighten line height if needed */
+    }
+}
+
+/* Fix 2: Embedded Videos Aspect Ratio */
+/* This targets iframes and video tags directly within post-content */
+.post-content iframe,
+.post-content video {
+    display: block; /* Ensures they behave like block elements */
+    max-width: 100%; /* Prevents overflow */
+    height: auto;    /* Allows height to adjust with width */
+    border-radius: 10px; /* Optional: adds rounded corners to embeds */
+    margin: 1.5rem auto; /* Centers the video and adds vertical spacing */
+}
+
+/* Aspect Ratio Container for Responsive Iframes/Videos (Recommended Method) */
+/* This method provides better control over aspect ratio */
+.video-responsive-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 = 0.5625) */
+    /* For 4:3 videos, use padding-bottom: 75%; */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 1.5rem auto; /* Centers the video and adds vertical spacing */
+    background: #000; /* Optional: black background before video loads */
+    border-radius: 10px; /* Optional: Rounded corners for the container */
+}
+
+.video-responsive-container iframe,
+.video-responsive-container video,
+.video-responsive-container object,
+.video-responsive-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* --- FIXES END HERE --- */
+
 
 /* Download Section CSS */
 .download-section {
@@ -705,6 +771,9 @@ document.addEventListener('DOMContentLoaded', function() {
     border-radius: 15px;
     border: 1px solid var(--border-color); /* Lighter border */
     box-shadow: 0 5px 20px var(--shadow-sm); /* Subtle shadow */
+    /* Ensure content inside is responsive */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Comments Section */
@@ -1023,7 +1092,7 @@ textarea.form-control {
         padding: 0.2rem 0.5rem;
     }
 
-    .post-header .display-4 {
+    .post-header .display-4 { /* This is the main title, now targets .post-title-responsive too */
         font-size: 2rem;
     }
 }
