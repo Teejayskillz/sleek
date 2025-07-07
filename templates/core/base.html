@@ -56,8 +56,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3QKYHLCB32"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3QKYHLCB32"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -67,17 +66,18 @@
 </script>
     <style>
         :root {
-            --dark-bg: #141414;
-            --darker-bg: #0a0a0a;
-            --card-bg: #1f1f1f;
-            --primary: #e50914;
-            --primary-hover: #f40612;
-            --text: #ffffff;
-            --text-muted: #b3b3b3;
-            --text-dim: #8c8c8c;
-            --border-color: #2d2d2d;
-            --shadow: rgba(0, 0, 0, 0.8);
-            --glow: rgba(229, 9, 20, 0.3);
+            /* White Theme Colors */
+            --light-bg: #f5f5f5; /* Light background for body */
+            --lighter-bg: #ffffff; /* Even lighter for cards/sections */
+            --card-bg: #ffffff;
+            --primary: #e50914; /* Netflix Red */
+            --primary-hover: #f40612; /* Slightly brighter red */
+            --text: #333333; /* Dark text for readability */
+            --text-muted: #666666; /* Muted dark text */
+            --text-dim: #999999; /* Even dimmer text */
+            --border-color: #e0e0e0; /* Light border */
+            --shadow: rgba(0, 0, 0, 0.1); /* Lighter shadow */
+            --glow: rgba(229, 9, 20, 0.15); /* Lighter red glow */
         }
 
         * {
@@ -85,7 +85,8 @@
         }
 
         body {
-            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            /* Changed from dark gradient to light solid background for performance */
+            background-color: var(--light-bg); 
             color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
@@ -95,42 +96,46 @@
         }
 
         a {
-            color: #E50914;
+            color: var(--primary);
             text-decoration: none;
             transition: all 0.3s ease;
         }
 
         a:hover {
-            color: #F40612;
-            text-shadow: 0 0 5px rgba(229, 9, 20, 0.5);
+            color: var(--primary-hover);
+            /* Simplified text-shadow for lighter theme */
+            text-shadow: 0 0 3px rgba(229, 9, 20, 0.2); 
         }
 
         /* Main container - Twitter-like boxed layout */
         .custom-container {
-            max-width: 1200px; /* Reduced from 1400px for better boxed feel */
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px; /* Increased padding for better spacing */
+            padding: 0 20px;
             width: 100%;
         }
 
         /* Wrapper for the entire content to create the boxed effect */
         .main-wrapper {
-            background: rgba(31, 31, 31, 0.3);
+            /* Removed backdrop-filter for performance */
+            background: var(--lighter-bg); 
             border-radius: 15px;
             border: 1px solid var(--border-color);
             margin: 20px auto;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px var(--shadow);
+            box-shadow: 0 10px 20px var(--shadow); /* Lighter shadow */
+            /* Added will-change for transform for smoother scrolling, use with caution */
+            will-change: transform, scroll-position;
         }
 
         /* Ad Section - More compact */
         .ad-section {
-            background: linear-gradient(45deg, var(--card-bg), var(--dark-bg));
+            /* Simplified background from gradient */
+            background: var(--lighter-bg); 
             border-bottom: 1px solid var(--border-color);
             padding: 15px 20px;
             text-align: center;
-            backdrop-filter: blur(10px);
+            /* Removed backdrop-filter for performance */
         }
 
         /* Header and Footer styling within the wrapper */
@@ -147,7 +152,7 @@
         /* Ensure header and footer have proper background and spacing */
         .main-wrapper header,
         .main-wrapper footer {
-            background: var(--card-bg);
+            background: var(--lighter-bg); /* Match main-wrapper background */
             border-bottom: 1px solid var(--border-color);
             padding: 15px 20px;
         }
@@ -163,6 +168,9 @@
             justify-content: center;
             align-items: center;
             margin: 8px 0;
+            background-color: var(--light-bg); /* Add a subtle background to ad containers */
+            border-radius: 8px;
+            padding: 5px;
         }
 
         /* Content area padding */
@@ -177,12 +185,13 @@
             margin: 20px 0 15px;
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--text);
+            color: #ffffff; /* Text remains white on red background */
             border-radius: 25px;
             position: relative;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 4px 15px var(--glow);
+            box-shadow: 0 4px 10px var(--glow); /* Lighter glow */
+            will-change: transform; /* Hint for animation */
         }
 
         .category-header::before {
@@ -198,19 +207,21 @@
 
         /* Post Cards - Compact and Sleek */
         .post-card {
-            background: var(--card-bg);
+            background: var(--card-bg); /* White background */
             border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             height: 100%;
             position: relative;
-            backdrop-filter: blur(10px);
+            /* Removed backdrop-filter for performance */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Lighter default shadow */
+            will-change: transform, box-shadow, border-color; /* Hint for hover animation */
         }
 
         .post-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px var(--shadow), 0 0 20px var(--glow);
+            transform: translateY(-5px) scale(1.01); /* Slightly less aggressive animation */
+            box-shadow: 0 15px 30px var(--shadow), 0 0 15px var(--glow); /* Lighter hover shadow */
             border-color: var(--primary);
         }
 
@@ -220,7 +231,7 @@
             padding-bottom: 60%;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(45deg, var(--dark-bg), var(--card-bg));
+            background: var(--light-bg); /* Light background for image placeholder */
         }
 
         .post-card-img-container img {
@@ -234,10 +245,10 @@
         }
 
         .post-card:hover .post-card-img-container img {
-            transform: scale(1.1);
+            transform: scale(1.05); /* Slightly less aggressive animation */
         }
 
-        /* Overlay gradient */
+        /* Overlay gradient - Adjusted for white theme */
         .post-card-img-container::after {
             content: '';
             position: absolute;
@@ -245,7 +256,7 @@
             left: 0;
             right: 0;
             height: 50%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            background: linear-gradient(transparent, rgba(255,255,255,0.8)); /* White gradient */
             pointer-events: none;
         }
 
@@ -258,7 +269,7 @@
         .post-card h3 {
             font-size: 0.9rem;
             font-weight: 600;
-            color: var(--text);
+            color: var(--text); /* Dark text on white card */
             margin-bottom: 8px;
             line-height: 1.3;
             overflow: hidden;
@@ -286,18 +297,20 @@
 
         /* Sidebar - More compact */
         .sidebar-section {
-            background: var(--card-bg);
+            background: var(--card-bg); /* White background */
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 20px;
-            backdrop-filter: blur(10px);
+            /* Removed backdrop-filter for performance */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Lighter default shadow */
             transition: all 0.3s ease;
+            will-change: transform, box-shadow, border-color; /* Hint for hover animation */
         }
 
         .sidebar-section:hover {
             border-color: var(--primary);
-            box-shadow: 0 8px 25px var(--shadow);
+            box-shadow: 0 8px 20px var(--shadow); /* Lighter hover shadow */
         }
 
         .sidebar-section h4 {
@@ -322,7 +335,7 @@
         }
 
         .sidebar-list-item:hover {
-            background: var(--dark-bg);
+            background: var(--light-bg); /* Lighter hover background */
             transform: translateX(5px);
         }
 
@@ -336,7 +349,7 @@
         }
 
         .sidebar-list-item-details a {
-            color: var(--text);
+            color: var(--text); /* Dark text */
             font-size: 0.85rem;
             font-weight: 500;
             line-height: 1.4;
@@ -349,7 +362,7 @@
 
         .sidebar-list-item-details span {
             font-size: 0.7rem;
-            color: var(--text-dim);
+            color: var(--text-dim); /* Dimmer dark text */
             margin-top: 2px;
         }
 
@@ -375,19 +388,20 @@
         .trending-buttons .btn-primary {
             background: linear-gradient(45deg, var(--primary), var(--primary-hover));
             border: none;
-            box-shadow: 0 4px 15px var(--glow);
+            box-shadow: 0 4px 10px var(--glow); /* Lighter glow */
         }
 
         .trending-buttons .btn-secondary {
-            background: var(--dark-bg);
+            background: var(--light-bg); /* Light background */
             border: 1px solid var(--border-color);
-            color: var(--text-muted);
+            color: var(--text-muted); /* Muted dark text */
+            box-shadow: none; /* Removed shadow for cleaner look */
         }
 
         .trending-buttons .btn-secondary:hover {
-            background: var(--border-color);
+            background: var(--border-color); /* Subtle hover background */
             color: var(--text);
-            transform: translateY(-2px);
+            transform: translateY(-1px); /* Slightly less aggressive animation */
         }
 
         /* Popular search styling */
@@ -404,12 +418,12 @@
         }
 
         .popular-search-list li:hover {
-            background: var(--dark-bg);
+            background: var(--light-bg); /* Light hover background */
             transform: translateX(5px);
         }
 
         .popular-search-list li a {
-            color: var(--text-muted);
+            color: var(--text-muted); /* Muted dark text */
             font-size: 0.8rem;
         }
 
@@ -527,7 +541,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px); /* Reduced translate for smoother entry */
             }
             to {
                 opacity: 1;
@@ -536,16 +550,26 @@
         }
 
         .post-card, .sidebar-section {
-            animation: fadeInUp 0.6s ease-out;
+            /* Ensured animation runs only once on initial load/appearance */
+            animation: fadeInUp 0.5s ease-out forwards; /* Changed duration to 0.5s, added forwards */
+            animation-timeline: view(); /* Trigger animation when element enters view */
+            animation-range: entry 0% cover 20%; /* Fine-tune when animation starts/ends */
+        }
+        /* Fallback for browsers not supporting view() timeline, will animate on page load */
+        @supports not (animation-timeline: view()) {
+            .post-card, .sidebar-section {
+                animation: fadeInUp 0.5s ease-out;
+            }
         }
 
-        /* Scrollbar styling */
+
+        /* Scrollbar styling - Adjusted for light theme */
         ::-webkit-scrollbar {
             width: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--dark-bg);
+            background: var(--light-bg); /* Light track */
         }
 
         ::-webkit-scrollbar-thumb {
@@ -568,8 +592,6 @@
                     <strong>NOTICE:</strong> This site uses pop-up ads. Please close unwanted tabs.
                 </div>
 
-               
-
                 <div class="ad-slot-container">
                     {{ ads_by_slug.header1|safe }}
                 </div>
@@ -589,7 +611,7 @@
                         {% block sidebar %}
                             <div class="sidebar-section">
                                 <h4><i class="fas fa-ad"></i> Sponsored</h4>
-                                <div class="text-center" style="padding: 30px; border: 2px dashed var(--border-color); border-radius: 8px; color: var(--text-dim);">
+                                <div class="text-center" style="padding: 30px; border: 2px dashed var(--border-color); border-radius: 8px; color: var(--text-dim); background-color: var(--light-bg);">
                                    {{ ads_by_slug.sidebar1|safe }}
                                 </div>
                             </div>
@@ -608,12 +630,14 @@
                                             <img src="{{ post.thumbnail.url }}"
                                                  alt="{{ post.title }}"
                                                  width="100" height="100"
-                                                 style="object-fit: cover; border-radius: 5px;">
+                                                 style="object-fit: cover; border-radius: 5px;"
+                                                 loading="lazy">
                                         {% else %}
-                                            <img src="/static/images/default_thumbnail.jpg"
+                                            <img src="{% static 'images/default_thumbnail.jpg' %}" {# Corrected static path for consistency #}
                                                  alt="No Image"
                                                  width="100" height="100"
-                                                 style="object-fit: cover; border-radius: 5px;">
+                                                 style="object-fit: cover; border-radius: 5px;"
+                                                 loading="lazy">
                                         {% endif %}
                                         <div class="sidebar-list-item-details">
                                             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
@@ -621,7 +645,7 @@
                                         </div>
                                     </div>
                                     {% empty %}
-                                    <p>No trending posts available for this period.</p>
+                                    <p style="color: var(--text-dim);">No trending posts available for this period.</p>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -638,12 +662,14 @@
                                             <img src="{{ post.thumbnail.url }}"
                                                  alt="{{ post.title }}"
                                                  width="100" height="100"
-                                                 style="object-fit: cover; border-radius: 5px;">
+                                                 style="object-fit: cover; border-radius: 5px;"
+                                                 loading="lazy">
                                         {% else %}
-                                            <img src="/static/images/default_thumbnail.jpg"
+                                            <img src="{% static 'images/default_thumbnail.jpg' %}" {# Corrected static path for consistency #}
                                                  alt="No Image"
                                                  width="100" height="100"
-                                                 style="object-fit: cover; border-radius: 5px;">
+                                                 style="object-fit: cover; border-radius: 5px;"
+                                                 loading="lazy">
                                         {% endif %}
                                         <div class="sidebar-list-item-details">
                                             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
@@ -651,7 +677,7 @@
                                         </div>
                                     </div>
                                     {% empty %}
-                                    <p>No recent posts available.</p>
+                                    <p style="color: var(--text-dim);">No recent posts available.</p>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -679,6 +705,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
