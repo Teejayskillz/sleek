@@ -1,33 +1,13 @@
+<!-- Netflix-Themed Footer CSS - Add to your main CSS file -->
 <style>
-/* Ensure these variables are defined in your core/base.html or a global CSS file for consistency */
-/*
-:root {
-    --background: #f0f2f5; // Very light background
-    --light-bg: #ffffff; // Pure white for cards/elements
-    --lighter-bg: #fdfefe; // Even lighter, almost white
-    --text: #1a1a1a; // Dark text
-    --text-muted: #555555; // Muted dark text
-    --text-dim: #777777; // Even dimmer dark text
-    --border-color: #e0e0e0; // Light border
-    --shadow: rgba(0,0,0,0.1); // Subtle dark shadow
-    --shadow-sm: rgba(0,0,0,0.05); // Even subtler dark shadow
-    --primary: #e50914; // Netflix red
-    --primary-hover: #ff1744; // Brighter red on hover
-    --primary-light: #ff6b6b; // Lighter red
-    --primary-alpha: rgba(229, 9, 20, 0.1); // Transparent red
-    --glow: rgba(229, 9, 20, 0.3); // Red glow for shadows
-}
-*/
-
 .netflix-footer {
-    background: var(--light-bg); /* Changed to light background */
-    color: var(--text); /* Changed to dark text */
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    color: #ffffff;
     padding: 4rem 0 1rem;
     margin-top: 5rem;
     position: relative;
     overflow: hidden;
-    border-top: 4px solid var(--primary); /* Keep Netflix red */
-    box-shadow: 0 -5px 20px var(--shadow-sm); /* Subtle shadow at the top */
+    border-top: 4px solid #e50914;
 }
 
 .netflix-footer::before {
@@ -37,7 +17,7 @@
     right: -50px;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, var(--primary-alpha) 0%, transparent 70%); /* Uses alpha red */
+    background: radial-gradient(circle, rgba(229, 9, 20, 0.1) 0%, transparent 70%);
     border-radius: 50%;
 }
 
@@ -48,7 +28,7 @@
     left: -30px;
     width: 150px;
     height: 150px;
-    background: radial-gradient(circle, rgba(229, 9, 20, 0.03) 0%, transparent 70%); /* Even lighter alpha red */
+    background: radial-gradient(circle, rgba(229, 9, 20, 0.05) 0%, transparent 70%);
     border-radius: 50%;
 }
 
@@ -62,30 +42,28 @@
 .footer-logo {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); /* Keep red gradient */
+    background: linear-gradient(135deg, #e50914 0%, #ff1744 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     font-weight: bold;
-    color: white; /* Keep white on red logo */
-    text-shadow: 0 1px 2px rgba(0,0,0,0.1); /* Lighter text shadow */
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .brand-text {
     font-size: 1.8rem;
     font-weight: 700;
-    /* Temporarily removed text gradient effect to make it visible */
-    /* background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); */
-    /* -webkit-background-clip: text; */
-    /* -webkit-text-fill-color: transparent; */
-    /* background-clip: text; */
-    color: var(--primary); /* FOR TESTING: Force to Netflix red */
+    background: linear-gradient(135deg, #e50914 0%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .footer-section h5 {
-    color: var(--text); /* Changed to dark text */
+    color: #ffffff;
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
@@ -100,12 +78,12 @@
     left: 0;
     width: 30px;
     height: 2px;
-    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%); /* Keep red gradient */
+    background: linear-gradient(90deg, #e50914 0%, #ff6b6b 100%);
     border-radius: 1px;
 }
 
 .footer-description {
-    color: var(--text-muted); /* Changed to muted dark text */
+    color: #b3b3b3;
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
@@ -122,7 +100,7 @@
 }
 
 .footer-links a {
-    color: var(--text-dim); /* Changed to dimmer dark text */
+    color: #b3b3b3;
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.3s ease;
@@ -132,7 +110,7 @@
 }
 
 .footer-links a:hover {
-    color: var(--primary); /* Keep Netflix red on hover */
+    color: #e50914;
     transform: translateX(5px);
 }
 
@@ -156,33 +134,32 @@
 .social-link {
     width: 45px;
     height: 45px;
-    background: var(--light-bg); /* Changed to light background */
-    border: 2px solid var(--border-color); /* Changed to light border */
+    background: #2d2d2d;
+    border: 2px solid #444;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-dim); /* Changed to dimmer dark text */
+    color: #b3b3b3;
     text-decoration: none;
     font-size: 1.2rem;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px var(--shadow-sm); /* Subtle shadow for buttons */
 }
 
 .social-link:hover {
-    background: var(--primary); /* Keep red on hover */
-    border-color: var(--primary); /* Keep red border on hover */
-    color: white; /* Keep white text on red hover */
+    background: #e50914;
+    border-color: #e50914;
+    color: white;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px var(--glow); /* Red glow for shadow */
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
 }
 
 .telegram-btn {
-    background: linear-gradient(135deg, #0088cc 0%, #00aaff 100%); /* Keep blue gradient */
+    background: linear-gradient(135deg, #0088cc 0%, #00aaff 100%);
     border: none;
     padding: 12px 24px;
     border-radius: 25px;
-    color: white; /* Keep white text */
+    color: white;
     font-weight: 600;
     text-decoration: none;
     display: inline-flex;
@@ -191,12 +168,11 @@
     font-size: 0.95rem;
     transition: all 0.3s ease;
     margin-bottom: 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Subtle shadow */
 }
 
 .telegram-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4); /* Blue glow */
+    box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
     color: white;
 }
 
@@ -210,22 +186,21 @@
 .stat-item {
     text-align: center;
     padding: 1rem;
-    background: var(--lighter-bg); /* Changed to lighter background */
+    background: rgba(45, 45, 45, 0.3);
     border-radius: 8px;
-    border: 1px solid var(--border-color); /* Changed to light border */
-    box-shadow: 0 2px 8px var(--shadow-sm); /* Subtle shadow */
+    border: 1px solid #333;
 }
 
 .stat-number {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary); /* Keep Netflix red */
+    color: #e50914;
     display: block;
 }
 
 .stat-label {
     font-size: 0.8rem;
-    color: var(--text-muted); /* Changed to muted dark text */
+    color: #b3b3b3;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -233,13 +208,13 @@
 .footer-divider {
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-color), transparent); /* Lighter divider */
+    background: linear-gradient(90deg, transparent, #333, transparent);
     margin: 3rem 0 2rem;
 }
 
 .copyright-section {
     text-align: center;
-    color: var(--text-muted); /* Changed to muted dark text */
+    color: #666;
     font-size: 0.9rem;
     position: relative;
     z-index: 2;
@@ -252,52 +227,49 @@
 
 .disclaimer {
     font-size: 0.8rem;
-    color: var(--text-dim); /* Changed to dimmer dark text */
+    color: #888;
     font-style: italic;
 }
 
 .footer-newsletter {
-    background: var(--primary-alpha); /* Keep light red alpha background */
+    background: rgba(229, 9, 20, 0.1);
     padding: 1.5rem;
     border-radius: 12px;
-    border: 1px solid rgba(229, 9, 20, 0.1); /* Lighter red border */
+    border: 1px solid rgba(229, 9, 20, 0.2);
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px var(--shadow-sm); /* Subtle shadow */
 }
 
 .newsletter-input {
-    background: var(--lighter-bg); /* Changed to lighter background */
-    border: 2px solid var(--border-color); /* Changed to light border */
+    background: #2d2d2d;
+    border: 2px solid #444;
     border-radius: 25px;
     padding: 10px 20px;
-    color: var(--text); /* Changed to dark text */
+    color: white;
     width: 100%;
     margin-bottom: 10px;
-    box-shadow: inset 0 1px 3px var(--shadow-sm); /* Subtle inner shadow */
 }
 
 .newsletter-input:focus {
     outline: none;
-    border-color: var(--primary); /* Keep red border on focus */
-    background: var(--light-bg); /* Slightly lighter on focus */
+    border-color: #e50914;
+    background: #333;
 }
 
 .newsletter-btn {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); /* Keep red gradient */
+    background: linear-gradient(135deg, #e50914 0%, #ff1744 100%);
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
-    color: white; /* Keep white text */
+    color: white;
     font-weight: 600;
     width: 100%;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px var(--glow-sm); /* Subtle red glow shadow */
 }
 
 .newsletter-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px var(--glow); /* More pronounced red glow */
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
 }
 
 /* Mobile Responsive */
@@ -316,6 +288,11 @@
 
     .brand-text {
         font-size: 1.5rem;
+    }
+
+    .footer-section {
+        text-align: center;
+        margin-bottom: 2rem;
     }
 
     .footer-section h5::after {
@@ -359,9 +336,11 @@
 }
 </style>
 
+<!-- Enhanced Django Footer HTML -->
 <footer class="netflix-footer">
     <div class="container">
         <div class="row">
+            <!-- Brand & About -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="footer-section">
                     <div class="footer-brand">
@@ -370,9 +349,10 @@
                     </div>
                     <p class="footer-description">
                         🎬 Your premier destination for movies, TV series, and entertainment news. 
-                        Experience unlimited streaming with no login required - enjoy anonymous Browse and discover your next favorite show!
+                        Experience unlimited streaming with no login required - enjoy anonymous browsing and discover your next favorite show!
                     </p>
                     
+                    <!-- Stats -->
                     <div class="stats-grid">
                         <div class="stat-item">
                             <span class="stat-number">10K+</span>
@@ -386,6 +366,7 @@
                 </div>
             </div>
             
+            <!-- Quick Links -->
             <div class="col-lg-2 col-md-6 mb-4">
                 <div class="footer-section">
                     <h5>🔗 Quick Links</h5>
@@ -399,6 +380,7 @@
                 </div>
             </div>
             
+            <!-- Legal Links -->
             <div class="col-lg-2 col-md-6 mb-4">
                 <div class="footer-section">
                     <h5>⚖️ Legal</h5>
@@ -412,10 +394,12 @@
                 </div>
             </div>
             
+            <!-- Community & Newsletter -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="footer-section">
                     <h5>🌟 Join Our Community</h5>
                     
+                    <!-- Social Links -->
                     <div class="social-links">
                         <a href="#" class="social-link" title="Facebook">
                             <i class="bi bi-facebook"></i>
@@ -431,16 +415,18 @@
                         </a>
                     </div>
                     
+                    <!-- Telegram CTA -->
                     <a href="https://t.me/hypeblog9ja" class="telegram-btn">
                         <i class="bi bi-telegram"></i>
                         Join Telegram Channel
                     </a>
                     
+                    <!-- Newsletter -->
                     <div class="footer-newsletter">
-                        <h6 style="color: var(--primary); margin-bottom: 1rem; font-weight: 600;">📧 Stay Updated</h6> {# Using var(--primary) #}
+                        <h6 style="color: #e50914; margin-bottom: 1rem; font-weight: 600;">📧 Stay Updated</h6>
                         <input type="email" class="newsletter-input" placeholder="Enter your email">
                         <button class="newsletter-btn">Subscribe to Updates</button>
-                        <small style="color: var(--text-dim); font-size: 0.8rem; display: block; margin-top: 0.5rem;"> {# Using var(--text-dim) #}
+                        <small style="color: #999; font-size: 0.8rem; display: block; margin-top: 0.5rem;">
                             Get instant notifications for new releases!
                         </small>
                     </div>
@@ -448,8 +434,10 @@
             </div>
         </div>
         
+        <!-- Divider -->
         <hr class="footer-divider">
         
+        <!-- Copyright -->
         <div class="copyright-section">
             <div class="copyright-main">
                 &copy; {% now "Y" %} <strong>Hypeblog9jaTV</strong> - All rights reserved. 
@@ -462,6 +450,7 @@
     </div>
 </footer>
 
+<!-- Optional JavaScript for Newsletter -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const newsletterBtn = document.querySelector('.newsletter-btn');
@@ -473,13 +462,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (email && email.includes('@')) {
                 // Add your newsletter signup logic here
                 this.innerHTML = '✅ Subscribed!';
-                this.style.background = '#28a745'; // Green for success
+                this.style.background = '#28a745';
                 newsletterInput.value = '';
                 
                 setTimeout(() => {
                     this.innerHTML = 'Subscribe to Updates';
-                    // Reset background to original gradient defined in CSS
-                    this.style.background = 'linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%)'; 
+                    this.style.background = '';
                 }, 3000);
             } else {
                 alert('Please enter a valid email address');

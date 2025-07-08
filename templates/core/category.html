@@ -1,14 +1,13 @@
-{% extends 'core/base.html' %} {# This must be first! #}
-{% load static %} {# This comes second #}
+{% extends 'core/base.html' %}
 
 {% block title %}Category: {{ category.name }} - {{ block.super }}{% endblock %}
 
 {% block content %}
-
 <div class="container my-4">
     <div class="row justify-content-center">
         <div class="col-lg-10 col-md-12">
             <div class="section">
+                <!-- Category Header with Breadcrumbs -->
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb-custom">
                         <li class="breadcrumb-item-custom">
@@ -55,7 +54,7 @@
                         </div>
                         {% else %}
                         <div class="post-card-img-container">
-                            <img src="{% static 'images/default_thumbnail.jpg' %}" alt="No Image" loading="lazy">
+                            <img src="/static/images/default_thumbnail.jpg" alt="No Image" loading="lazy">
                         </div>
                         {% endif %}
                         <div class="post-card-content">
@@ -76,10 +75,12 @@
                     {% endfor %}
                 </div>
 
+                <!-- Netflix-Style Pagination -->
                 {% if is_paginated %}
                 <div class="pagination-container">
                     <nav aria-label="Page navigation">
                         <ul class="pagination-list">
+                            <!-- Previous Page -->
                             {% if page_obj.has_previous %}
                             <li class="page-item">
                                 <a class="page-link prev-next" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
@@ -96,6 +97,7 @@
                             </li>
                             {% endif %}
                             
+                            <!-- Page Numbers with Smart Ellipsis -->
                             {% for num in page_obj.paginator.page_range %}
                                 {% if page_obj.number == num %}
                                 <li class="page-item active">
@@ -126,6 +128,7 @@
                                 {% endif %}
                             {% endfor %}
                             
+                            <!-- Next Page -->
                             {% if page_obj.has_next %}
                             <li class="page-item">
                                 <a class="page-link prev-next" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
@@ -144,6 +147,7 @@
                         </ul>
                     </nav>
                     
+                    <!-- Page Info -->
                     <div class="page-info">
                         <span class="text-muted">
                             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
@@ -155,10 +159,10 @@
                 {% else %}
                 <div class="no-results">
                     <div class="text-center py-5">
-                        <i class="bi bi-folder-x" style="font-size: 4rem; color: var(--text-dim); margin-bottom: 20px;"></i>
-                        <h3 class="mb-3" style="color: var(--text);">No posts found in this category</h3>
+                        <i class="bi bi-folder-x" style="font-size: 4rem; color: #666; margin-bottom: 20px;"></i>
+                        <h3 class="mb-3">No posts found in this category</h3>
                         <p class="text-muted mb-4">This category doesn't have any published posts yet.</p>
-                        <a href="{% url 'home' %}" class="btn btn-outline-dark"> {# Changed to btn-outline-dark for white theme #}
+                        <a href="{% url 'home' %}" class="btn btn-outline-light">
                             <i class="bi bi-arrow-left me-2"></i>Back to Home
                         </a>
                     </div>
@@ -169,8 +173,8 @@
     </div>
 </div>
 
+<!-- Enhanced Styles -->
 <style>
-/* Assuming :root variables from base.html are available here */
 /* Custom Breadcrumbs */
 .breadcrumb-custom {
     display: flex;
@@ -178,12 +182,11 @@
     list-style: none;
     margin: 0;
     padding: 15px 20px;
-    background: var(--lighter-bg); /* Changed to white */
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
-    /* REMOVED backdrop-filter */
-    border: 1px solid var(--border-color); /* Lighter border */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     gap: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Lighter shadow */
 }
 
 .breadcrumb-item-custom {
@@ -192,7 +195,7 @@
 }
 
 .breadcrumb-link {
-    color: var(--text-muted); /* Muted dark text */
+    color: #b3b3b3;
     text-decoration: none;
     transition: all 0.3s ease;
     padding: 5px 10px;
@@ -202,43 +205,38 @@
 }
 
 .breadcrumb-link:hover {
-    color: var(--primary);
-    background: rgba(229, 9, 20, 0.08); /* Lighter background on hover */
+    color: #e50914;
+    background: rgba(229, 9, 20, 0.1);
 }
 
 .breadcrumb-separator {
-    color: var(--text-dim); /* Dimmer dark text */
+    color: #666;
     font-size: 0.8rem;
 }
 
 .breadcrumb-item-custom.active {
-    color: var(--primary);
+    color: #e50914;
     font-weight: 600;
 }
 
 /* Enhanced Category Header */
-.category-header {
-    /* Uses base.html's .category-header styles directly */
-    /* No need to redefine if it's already in base.html's global styles */
-}
-
+/* Replace the existing .category-title rule with this: */
 .category-title {
     color: #ffffff !important;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 50%, #ff6b6b 100%);
+    background: linear-gradient(135deg, #e50914 0%, #ff1744 50%, #ff6b6b 100%);
     padding: 20px 30px;
     border-radius: 15px;
     font-weight: 800;
     font-size: 2.5rem;
     margin-bottom: 15px;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Lighter shadow */
-    box-shadow: 0 5px 15px var(--glow); /* Lighter glow */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
     border: 2px solid rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
     display: inline-block;
     width: 100%;
     text-align: center;
-    will-change: transform, box-shadow; /* Hint for animation */
 }
 
 /* Add shimmer effect */
@@ -251,7 +249,6 @@
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
     animation: shimmer 3s infinite;
-    will-change: left; /* Hint for shimmer animation */
 }
 
 @keyframes shimmer {
@@ -260,7 +257,7 @@
 }
 
 .category-description {
-    color: var(--text-muted); /* Muted dark text */
+    color: #b3b3b3;
     font-size: 1.1rem;
     margin-bottom: 15px;
     line-height: 1.6;
@@ -269,7 +266,6 @@
 .results-info {
     margin-top: 10px;
     font-size: 0.9rem;
-    color: var(--text-muted); /* Muted dark text */
 }
 
 /* Enhanced Post Meta */
@@ -282,14 +278,14 @@
 }
 
 .post-date {
-    color: var(--text-dim); /* Dimmer dark text */
+    color: #999;
     font-size: 0.85rem;
     display: flex;
     align-items: center;
 }
 
 .category-badge {
-    background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Netflix red gradient */
+    background: linear-gradient(45deg, #e50914, #ff1744);
     color: white;
     padding: 4px 12px;
     border-radius: 15px;
@@ -297,7 +293,6 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    will-change: background, box-shadow; /* Hint for hover effect */
 }
 
 /* Netflix-Style Pagination */
@@ -308,11 +303,10 @@
     margin-top: 50px;
     padding: 30px 0;
     gap: 20px;
-    background: var(--lighter-bg); /* Changed to white */
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 20px;
-    /* REMOVED backdrop-filter */
-    border: 1px solid var(--border-color); /* Lighter border */
-    box-shadow: 0 5px 20px var(--shadow); /* Lighter shadow */
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .pagination-list {
@@ -336,17 +330,16 @@
     min-width: 48px;
     height: 48px;
     padding: 10px 18px;
-    background: var(--light-bg); /* Light background */
-    border: 2px solid var(--border-color); /* Lighter border */
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
-    color: var(--text-muted); /* Muted dark text */
+    color: #ffffff;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    /* REMOVED backdrop-filter */
+    backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
-    will-change: transform, background, border-color, box-shadow; /* Hint for animation */
 }
 
 .page-link::before {
@@ -356,16 +349,16 @@
     left: 0;
     width: 0;
     height: 100%;
-    background: linear-gradient(45deg, var(--primary), var(--primary-hover));
+    background: linear-gradient(45deg, #e50914, #ff1744);
     transition: width 0.3s ease;
     z-index: -1;
 }
 
 .page-link:hover {
     color: #ffffff;
-    border-color: var(--primary);
-    transform: translateY(-2px); /* Slightly less aggressive lift */
-    box-shadow: 0 5px 15px var(--glow); /* Lighter glow */
+    border-color: #e50914;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
 }
 
 .page-link:hover::before {
@@ -373,12 +366,12 @@
 }
 
 .page-link.current {
-    background: linear-gradient(45deg, var(--primary), var(--primary-hover));
-    border-color: var(--primary);
+    background: linear-gradient(45deg, #e50914, #ff1744);
+    border-color: #e50914;
     color: #ffffff;
     font-weight: 800;
-    box-shadow: 0 3px 10px var(--glow); /* Lighter glow */
-    transform: scale(1.03); /* Slightly less aggressive scale */
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5);
+    transform: scale(1.05);
 }
 
 .page-link.prev-next {
@@ -389,37 +382,35 @@
 }
 
 .page-link.disabled {
-    opacity: 0.5; /* Slightly increased opacity for visibility */
+    opacity: 0.4;
     cursor: not-allowed;
-    background: var(--light-bg); /* Light background for disabled */
-    border-color: var(--border-color); /* Light border */
-    color: var(--text-dim); /* Dimmer dark text */
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .page-link.disabled:hover {
     transform: none;
     box-shadow: none;
-    border-color: var(--border-color);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .page-info {
-    color: var(--text-muted); /* Muted dark text */
+    color: #b3b3b3;
     font-size: 1rem;
     font-weight: 500;
-    background: var(--light-bg); /* Light background */
+    background: rgba(255, 255, 255, 0.05);
     padding: 10px 20px;
     border-radius: 25px;
-    border: 1px solid var(--border-color); /* Light border */
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* No Results Styling */
 .no-results {
-    background: var(--lighter-bg); /* Changed to white */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
     border-radius: 20px;
     margin: 40px 0;
-    border: 1px solid var(--border-color); /* Light border */
-    /* REMOVED backdrop-filter */
-    box-shadow: 0 5px 15px var(--shadow); /* Lighter shadow */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
 }
 
 /* Mobile Responsive */
@@ -457,19 +448,31 @@
     }
 }
 
-/* Smooth Animations - Adjusted and integrated with base.html animations */
-/* .latest-updates-grid animation is handled by individual .post-card animations in base.html */
-/* Removing redundant .latest-updates-grid animation here */
+/* Smooth Animations */
+.latest-updates-grid {
+    animation: fadeInUp 0.6s ease-out;
+}
 
-/* Hover Effects for Post Cards - Keep in sync with base.html for consistency */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover Effects for Post Cards */
 .post-card:hover {
-    transform: translateY(-5px) scale(1.01); /* Reduced scale slightly */
-    box-shadow: 0 10px 30px var(--shadow), 0 0 15px var(--glow); /* Lighter shadow & glow */
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
 }
 
 .post-card:hover .category-badge {
-    background: linear-gradient(45deg, var(--primary-hover), #ff6b6b); /* Slightly adjusted gradient on hover */
-    box-shadow: 0 3px 10px var(--glow); /* Lighter glow */
+    background: linear-gradient(45deg, #ff1744, #ff6b6b);
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
 }
 </style>
 {% endblock %}
