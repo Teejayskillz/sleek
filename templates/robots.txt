@@ -3,6 +3,6 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://hypeblog9jatv.com.ng/sitemap.xml
+Sitemap: https://sleekpedia.com.ng/sitemap.xml
 # ---------------------------
 # END YOAST BLOCK
