@@ -20,3 +20,4 @@ staticfiles/
 media/
 static/core/migrations/0008_alter_downloadquality_quality.py
 static/
+passenger_wsgi.py

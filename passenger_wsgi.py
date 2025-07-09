@@ -6,13 +6,13 @@ import sys
 # 1. Add your application root to the Python path.
 # This should be the directory that contains 'manage.py' and your main Django project folder (e.g., 'blog_project').
 # Based on your venv path, it appears to be: /home/hypeblog/hypeblog9jatv.com.ng
-PROJECT_ROOT = '/home/hypeblog/hypeblog9jatv.com.ng' # <--- CONFIRM THIS IS YOUR ACTUAL PROJECT ROOT
+PROJECT_ROOT = '/home/hypeblog/sleekpedia.com.ng' # <--- CONFIRM THIS IS YOUR ACTUAL PROJECT ROOT
 sys.path.insert(0, PROJECT_ROOT)
 
 # 2. Point to your virtual environment's Python interpreter.
 # This path is usually found in cPanel's "Setup Python App" under your app details.
 # Based on your venv path: /home/hypeblog/virtualenv/hypeblog9jatv.com.ng/3.9/bin/python
-INTERP = "/home/hypeblog/virtualenv/hypeblog9jatv.com.ng/3.9/bin/python" # <--- CONFIRM THIS EXACT PATH
+INTERP = "/home/hypeblog/virtualenv/sleekpedia.com.ng/3.9/bin/python" # <--- CONFIRM THIS EXACT PATH
 if sys.executable != INTERP:
     os.execl(INTERP, INTERP, *sys.argv)
 
