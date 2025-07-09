@@ -9,7 +9,7 @@
 # property and/or other materials, please contact this
 # site’s operator directly.
 
-# BEGIN Cloudflare Managed content (Adjusted for Google)
+# BEGIN Cloudflare Managed content (Adjusted: Removed Disallow for Google-Extended)
 
 User-agent: Amazonbot
 Disallow: /
@@ -26,8 +26,7 @@ Disallow: /
 User-agent: ClaudeBot
 Disallow: /
 
-# User-agent: Google-Extended  <- REMOVE OR COMMENT THIS LINE OUT
-# Disallow: /                  <- REMOVE OR COMMENT THIS LINE OUT
+
 
 User-agent: GPTBot
 Disallow: /
