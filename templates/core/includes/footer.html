@@ -1,34 +1,52 @@
-<!-- Netflix-Themed Footer CSS - Add to your main CSS file -->
+{% load static %}
 <style>
-.netflix-footer {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-    color: #ffffff;
-    padding: 4rem 0 1rem;
-    margin-top: 5rem;
-    position: relative;
-    overflow: hidden;
-    border-top: 4px solid #e50914;
+/* NEW COLOR PALETTE & GLOBAL STYLES FOR FOOTER (Copied from base.html for consistency) */
+:root {
+    --dark-bg: #1A1A2E; /* Deep Purple-Blue */
+    --darker-bg: #16213E; /* Even Deeper */
+    --card-bg: #27344D; /* Softer Blue-Gray for cards */
+    --primary: #00ADB5; /* Teal - A fresh, vibrant primary color */
+    --primary-hover: #008D96; /* Darker Teal for hover */
+    --text: #E0E0E0; /* Off-white for better readability on dark */
+    --text-muted: #A0A0B0; /* Muted text */
+    --text-dim: #707080; /* Dim text */
+    --border-color: #3F4A6A; /* Border color related to new palette */
+    --shadow: rgba(0, 0, 0, 0.6); /* Slightly less harsh shadow */
+    --glow: rgba(0, 173, 181, 0.4); /* Glow matching new primary */
+    --transition-speed: 0.3s ease-in-out; /* Standardized transition */
 }
 
-.netflix-footer::before {
+/* Footer Container - Using new color scheme */
+.app-footer { /* Renamed from netflix-footer for generality */
+    background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+    color: var(--text);
+    padding: 4rem 0 1rem;
+    margin-top: 5rem; /* Consistent spacing */
+    position: relative;
+    overflow: hidden;
+    border-top: 4px solid var(--primary); /* Uses new primary color */
+}
+
+/* Subtle background effects using new primary color */
+.app-footer::before {
     content: '';
     position: absolute;
     top: -50px;
     right: -50px;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(229, 9, 20, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--glow) 0%, transparent 70%); /* Uses new glow color */
     border-radius: 50%;
 }
 
-.netflix-footer::after {
+.app-footer::after {
     content: '';
     position: absolute;
     bottom: -30px;
     left: -30px;
     width: 150px;
     height: 150px;
-    background: radial-gradient(circle, rgba(229, 9, 20, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 173, 181, 0.05) 0%, transparent 70%); /* Softer glow */
     border-radius: 50%;
 }
 
@@ -42,7 +60,7 @@
 .footer-logo {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #e50914 0%, #ff1744 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); /* New primary gradient */
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -56,14 +74,14 @@
 .brand-text {
     font-size: 1.8rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #e50914 0%, #ff6b6b 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); /* New primary gradient for text */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .footer-section h5 {
-    color: #ffffff;
+    color: var(--text); /* Consistent with body text color */
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
@@ -78,12 +96,12 @@
     left: 0;
     width: 30px;
     height: 2px;
-    background: linear-gradient(90deg, #e50914 0%, #ff6b6b 100%);
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-hover) 100%); /* New primary gradient */
     border-radius: 1px;
 }
 
 .footer-description {
-    color: #b3b3b3;
+    color: var(--text-muted); /* Consistent muted text color */
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
@@ -100,25 +118,26 @@
 }
 
 .footer-links a {
-    color: #b3b3b3;
+    color: var(--text-muted); /* Links use muted text by default */
     text-decoration: none;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed); /* Standardized transition speed */
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .footer-links a:hover {
-    color: #e50914;
+    color: var(--primary); /* Hover uses new primary color */
     transform: translateX(5px);
 }
 
 .footer-links a::before {
-    content: '▶';
+    content: '▶'; /* Keep the play icon */
     font-size: 0.7rem;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-speed);
+    color: var(--primary); /* Ensure icon is primary color on hover */
 }
 
 .footer-links a:hover::before {
@@ -134,28 +153,28 @@
 .social-link {
     width: 45px;
     height: 45px;
-    background: #2d2d2d;
-    border: 2px solid #444;
+    background: var(--card-bg); /* Use card background for social icons */
+    border: 2px solid var(--border-color); /* Use consistent border color */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #b3b3b3;
+    color: var(--text-muted); /* Muted color for icons */
     text-decoration: none;
     font-size: 1.2rem;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
 }
 
 .social-link:hover {
-    background: #e50914;
-    border-color: #e50914;
+    background: var(--primary); /* Hover uses new primary */
+    border-color: var(--primary);
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    box-shadow: 0 5px 15px var(--glow); /* Uses new glow */
 }
 
 .telegram-btn {
-    background: linear-gradient(135deg, #0088cc 0%, #00aaff 100%);
+    background: linear-gradient(135deg, #0088cc 0%, #00aaff 100%); /* Kept original Telegram colors as it's a brand */
     border: none;
     padding: 12px 24px;
     border-radius: 25px;
@@ -166,8 +185,9 @@
     align-items: center;
     gap: 8px;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
     margin-bottom: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3); /* Softer shadow */
 }
 
 .telegram-btn:hover {
@@ -186,21 +206,21 @@
 .stat-item {
     text-align: center;
     padding: 1rem;
-    background: rgba(45, 45, 45, 0.3);
+    background: rgba(39, 52, 77, 0.3); /* Uses a transparent version of card-bg */
     border-radius: 8px;
-    border: 1px solid #333;
+    border: 1px solid var(--border-color); /* Consistent border */
 }
 
 .stat-number {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #e50914;
+    color: var(--primary); /* Uses new primary */
     display: block;
 }
 
 .stat-label {
     font-size: 0.8rem;
-    color: #b3b3b3;
+    color: var(--text-muted); /* Consistent muted text */
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -208,13 +228,13 @@
 .footer-divider {
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #333, transparent);
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent); /* New border color */
     margin: 3rem 0 2rem;
 }
 
 .copyright-section {
     text-align: center;
-    color: #666;
+    color: var(--text-dim); /* Consistent dim text */
     font-size: 0.9rem;
     position: relative;
     z-index: 2;
@@ -227,36 +247,37 @@
 
 .disclaimer {
     font-size: 0.8rem;
-    color: #888;
+    color: var(--text-dim); /* Consistent dim text */
     font-style: italic;
 }
 
 .footer-newsletter {
-    background: rgba(229, 9, 20, 0.1);
+    background: rgba(0, 173, 181, 0.1); /* Transparent primary color for newsletter background */
     padding: 1.5rem;
     border-radius: 12px;
-    border: 1px solid rgba(229, 9, 20, 0.2);
+    border: 1px solid rgba(0, 173, 181, 0.2); /* Transparent primary color for border */
     margin-bottom: 1.5rem;
 }
 
 .newsletter-input {
-    background: #2d2d2d;
-    border: 2px solid #444;
+    background: var(--dark-bg); /* Darker background for input */
+    border: 2px solid var(--border-color); /* Consistent border */
     border-radius: 25px;
     padding: 10px 20px;
-    color: white;
+    color: var(--text);
     width: 100%;
     margin-bottom: 10px;
+    transition: all var(--transition-speed); /* Smooth transition on focus */
 }
 
 .newsletter-input:focus {
     outline: none;
-    border-color: #e50914;
-    background: #333;
+    border-color: var(--primary); /* Focus uses primary color */
+    background: var(--card-bg); /* Slightly lighter background on focus */
 }
 
 .newsletter-btn {
-    background: linear-gradient(135deg, #e50914 0%, #ff1744 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); /* New primary gradient */
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
@@ -264,17 +285,17 @@
     font-weight: 600;
     width: 100%;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
 }
 
 .newsletter-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    box-shadow: 0 5px 15px var(--glow); /* Uses new glow */
 }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
-    .netflix-footer {
+    .app-footer { /* Renamed class */
         padding: 3rem 0 1rem;
         margin-top: 3rem;
     }
@@ -336,11 +357,9 @@
 }
 </style>
 
-<!-- Enhanced Django Footer HTML -->
-<footer class="netflix-footer">
+<footer class="app-footer"> {# Renamed class from netflix-footer #}
     <div class="container">
         <div class="row">
-            <!-- Brand & About -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="footer-section">
                     <div class="footer-brand">
@@ -349,10 +368,9 @@
                     </div>
                     <p class="footer-description">
                         🎬 Your premier destination for movies, TV series, and entertainment news. 
-                        Experience unlimited streaming with no login required - enjoy anonymous browsing and discover your next favorite show!
+                        Experience unlimited streaming with no login required - enjoy anonymous Browse and discover your next favorite show!
                     </p>
                     
-                    <!-- Stats -->
                     <div class="stats-grid">
                         <div class="stat-item">
                             <span class="stat-number">10K+</span>
@@ -366,7 +384,6 @@
                 </div>
             </div>
             
-            <!-- Quick Links -->
             <div class="col-lg-2 col-md-6 mb-4">
                 <div class="footer-section">
                     <h5>🔗 Quick Links</h5>
@@ -380,7 +397,6 @@
                 </div>
             </div>
             
-            <!-- Legal Links -->
             <div class="col-lg-2 col-md-6 mb-4">
                 <div class="footer-section">
                     <h5>⚖️ Legal</h5>
@@ -394,12 +410,10 @@
                 </div>
             </div>
             
-            <!-- Community & Newsletter -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="footer-section">
                     <h5>🌟 Join Our Community</h5>
                     
-                    <!-- Social Links -->
                     <div class="social-links">
                         <a href="#" class="social-link" title="Facebook">
                             <i class="bi bi-facebook"></i>
@@ -415,18 +429,16 @@
                         </a>
                     </div>
                     
-                    <!-- Telegram CTA -->
                     <a href="https://t.me/ifgjjc" class="telegram-btn">
                         <i class="bi bi-telegram"></i>
                         Join Telegram Channel
                     </a>
                     
-                    <!-- Newsletter -->
                     <div class="footer-newsletter">
-                        <h6 style="color: #e50914; margin-bottom: 1rem; font-weight: 600;">📧 Stay Updated</h6>
+                        <h6 style="color: var(--primary); margin-bottom: 1rem; font-weight: 600;">📧 Stay Updated</h6> {# Used CSS variable #}
                         <input type="email" class="newsletter-input" placeholder="Enter your email">
                         <button class="newsletter-btn">Subscribe to Updates</button>
-                        <small style="color: #999; font-size: 0.8rem; display: block; margin-top: 0.5rem;">
+                        <small style="color: var(--text-dim); font-size: 0.8rem; display: block; margin-top: 0.5rem;"> {# Used CSS variable #}
                             Get instant notifications for new releases!
                         </small>
                     </div>
@@ -434,10 +446,8 @@
             </div>
         </div>
         
-        <!-- Divider -->
         <hr class="footer-divider">
         
-        <!-- Copyright -->
         <div class="copyright-section">
             <div class="copyright-main">
                 &copy; {% now "Y" %} <strong>JaraFlix</strong> - All rights reserved. 
@@ -450,7 +460,6 @@
     </div>
 </footer>
 
-<!-- Optional JavaScript for Newsletter -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const newsletterBtn = document.querySelector('.newsletter-btn');
@@ -462,12 +471,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (email && email.includes('@')) {
                 // Add your newsletter signup logic here
                 this.innerHTML = '✅ Subscribed!';
-                this.style.background = '#28a745';
+                // Ensure success background color matches new palette (e.g., green from Bootstrap)
+                this.style.background = '#28a745'; 
                 newsletterInput.value = '';
                 
                 setTimeout(() => {
                     this.innerHTML = 'Subscribe to Updates';
-                    this.style.background = '';
+                    // Revert to original gradient using CSS variable
+                    this.style.background = 'linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%)';
                 }, 3000);
             } else {
                 alert('Please enter a valid email address');

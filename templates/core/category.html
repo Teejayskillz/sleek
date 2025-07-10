@@ -1,13 +1,336 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}Category: {{ category.name }} - {{ block.super }}{% endblock %}
 
 {% block content %}
+<style>
+    /* New CSS variables for consistency */
+    :root {
+        --dark-bg: #1A1A1A; /* Dark background */
+        --card-bg: #27344D; /* Dark blue for cards */
+        --darker-bg: #1E283A; /* Slightly darker than card-bg for inputs etc. */
+        --primary: #008080; /* Teal primary color */
+        --primary-hover: #00A3A3; /* Lighter teal on hover */
+        --text: #E0E0E0; /* Light grey for main text */
+        --text-muted: #A0A0A0; /* Muted grey for secondary text */
+        --text-dim: #707070; /* Dim grey for tertiary text */
+        --border-color: rgba(255, 255, 255, 0.1); /* Subtle white border */
+        --shadow: rgba(0, 0, 0, 0.4); /* Darker shadow */
+        --glow: rgba(0, 128, 128, 0.3); /* Teal glow */
+        --transition-speed: 0.3s ease; /* Standard transition speed */
+    }
+
+    /* Custom Breadcrumbs - Teal Themed */
+    .breadcrumb-custom {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 15px 20px;
+        background: rgba(var(--dark-bg-rgb, 26, 26, 26), 0.5); /* Use RGB for rgba if available, else fallback */
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        gap: 10px;
+    }
+
+    .breadcrumb-item-custom {
+        display: flex;
+        align-items: center;
+    }
+
+    .breadcrumb-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: all var(--transition-speed);
+        padding: 5px 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .breadcrumb-link:hover {
+        color: var(--primary-hover);
+        background: rgba(var(--primary-rgb, 0, 128, 128), 0.1); /* Use RGB for rgba if available, else fallback */
+    }
+
+    .breadcrumb-separator {
+        color: var(--text-dim);
+        font-size: 0.8rem;
+    }
+
+    .breadcrumb-item-custom.active {
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    /* Enhanced Category Header - Teal Themed */
+    .category-title {
+        color: var(--text) !important; /* Ensure text color is white */
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 50%, #00C8C8 100%); /* Teal gradient */
+        padding: 20px 30px;
+        border-radius: 15px;
+        font-weight: 800;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        text-shadow: 0 2px 10px var(--shadow);
+        box-shadow: 0 8px 25px var(--glow); /* Teal glow */
+        border: 2px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Add shimmer effect */
+    .category-title::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+
+    .category-description {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .results-info {
+        margin-top: 10px;
+        font-size: 0.9rem;
+    }
+
+    /* Enhanced Post Meta - Teal Themed */
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .post-date {
+        color: var(--text-dim);
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .category-badge {
+        background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Teal gradient */
+        color: white;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Netflix-Style Pagination - Teal Themed */
+    .pagination-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        padding: 30px 0;
+        gap: 20px;
+        background: rgba(var(--darker-bg-rgb, 30, 40, 58), 0.5); /* Use RGB for rgba if available, else fallback */
+        border-radius: 20px;
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-color);
+    }
+
+    .pagination-list {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-item {
+        display: flex;
+    }
+
+    .page-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 48px;
+        height: 48px;
+        padding: 10px 18px;
+        background: var(--card-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all var(--transition-speed);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Teal gradient */
+        transition: width var(--transition-speed);
+        z-index: -1;
+    }
+
+    .page-link:hover {
+        color: #ffffff;
+        border-color: var(--primary); /* Teal border */
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px var(--glow); /* Teal glow */
+    }
+
+    .page-link:hover::before {
+        width: 100%;
+    }
+
+    .page-link.current {
+        background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Teal gradient */
+        border-color: var(--primary); /* Teal border */
+        color: #ffffff;
+        font-weight: 800;
+        box-shadow: 0 6px 20px var(--glow); /* Teal glow */
+        transform: scale(1.05);
+    }
+
+    .page-link.prev-next {
+        padding: 10px 24px;
+        gap: 10px;
+        font-weight: 700;
+        min-width: auto;
+    }
+
+    .page-link.disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        background: var(--darker-bg);
+        border-color: var(--border-color);
+    }
+
+    .page-link.disabled:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: var(--border-color);
+    }
+
+    .page-info {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 500;
+        background: rgba(var(--darker-bg-rgb, 30, 40, 58), 0.3); /* Use RGB for rgba if available, else fallback */
+        padding: 10px 20px;
+        border-radius: 25px;
+        border: 1px solid var(--border-color);
+    }
+
+    /* No Results Styling - Teal Themed */
+    .no-results {
+        background: linear-gradient(135deg, var(--darker-bg) 0%, var(--card-bg) 100%);
+        border-radius: 20px;
+        margin: 40px 0;
+        border: 1px solid var(--border-color);
+        backdrop-filter: blur(15px);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .category-title {
+            font-size: 2rem;
+        }
+        
+        .breadcrumb-custom {
+            padding: 12px 15px;
+            gap: 8px;
+        }
+        
+        .pagination-list {
+            gap: 4px;
+        }
+        
+        .page-link {
+            min-width: 42px;
+            height: 42px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+        }
+        
+        .page-link.prev-next {
+            padding: 8px 18px;
+        }
+        
+        .results-info {
+            text-align: center;
+        }
+        
+        .post-meta {
+            justify-content: center;
+        }
+    }
+
+    /* Smooth Animations */
+    .latest-updates-grid {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Hover Effects for Post Cards - Teal Themed */
+    .post-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 15px 40px var(--glow); /* Teal glow */
+    }
+
+    .post-card:hover .category-badge {
+        background: linear-gradient(45deg, var(--primary-hover), #00C8C8); /* Lighter teal gradient */
+        box-shadow: 0 4px 15px var(--glow); /* Teal glow */
+    }
+</style>
+{% comment %}
+    Make sure you have RGB values defined for your CSS variables in :root,
+    e.g., --dark-bg-rgb: 26, 26, 26; for #1A1A1A,
+    if you want to use rgba(var(--var-rgb), 0.X) for transparent backgrounds.
+    Otherwise, backgrounds will be solid if var(--var-name) is a hex code.
+{% endcomment %}
+
 <div class="container my-4">
     <div class="row justify-content-center">
         <div class="col-lg-10 col-md-12">
             <div class="section">
-                <!-- Category Header with Breadcrumbs -->
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb-custom">
                         <li class="breadcrumb-item-custom">
@@ -54,7 +377,7 @@
                         </div>
                         {% else %}
                         <div class="post-card-img-container">
-                            <img src="/static/images/default_thumbnail.jpg" alt="No Image" loading="lazy">
+                            <img src="{% static 'images/default_thumbnail.jpg' %}" alt="No Image" loading="lazy">
                         </div>
                         {% endif %}
                         <div class="post-card-content">
@@ -75,12 +398,10 @@
                     {% endfor %}
                 </div>
 
-                <!-- Netflix-Style Pagination -->
                 {% if is_paginated %}
                 <div class="pagination-container">
                     <nav aria-label="Page navigation">
                         <ul class="pagination-list">
-                            <!-- Previous Page -->
                             {% if page_obj.has_previous %}
                             <li class="page-item">
                                 <a class="page-link prev-next" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
@@ -97,7 +418,6 @@
                             </li>
                             {% endif %}
                             
-                            <!-- Page Numbers with Smart Ellipsis -->
                             {% for num in page_obj.paginator.page_range %}
                                 {% if page_obj.number == num %}
                                 <li class="page-item active">
@@ -128,7 +448,6 @@
                                 {% endif %}
                             {% endfor %}
                             
-                            <!-- Next Page -->
                             {% if page_obj.has_next %}
                             <li class="page-item">
                                 <a class="page-link prev-next" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
@@ -147,7 +466,6 @@
                         </ul>
                     </nav>
                     
-                    <!-- Page Info -->
                     <div class="page-info">
                         <span class="text-muted">
                             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
@@ -159,7 +477,7 @@
                 {% else %}
                 <div class="no-results">
                     <div class="text-center py-5">
-                        <i class="bi bi-folder-x" style="font-size: 4rem; color: #666; margin-bottom: 20px;"></i>
+                        <i class="bi bi-folder-x" style="font-size: 4rem; color: var(--text-dim); margin-bottom: 20px;"></i>
                         <h3 class="mb-3">No posts found in this category</h3>
                         <p class="text-muted mb-4">This category doesn't have any published posts yet.</p>
                         <a href="{% url 'home' %}" class="btn btn-outline-light">
@@ -172,307 +490,4 @@
         </div>
     </div>
 </div>
-
-<!-- Enhanced Styles -->
-<style>
-/* Custom Breadcrumbs */
-.breadcrumb-custom {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    margin: 0;
-    padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    gap: 10px;
-}
-
-.breadcrumb-item-custom {
-    display: flex;
-    align-items: center;
-}
-
-.breadcrumb-link {
-    color: #b3b3b3;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    padding: 5px 10px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-}
-
-.breadcrumb-link:hover {
-    color: #e50914;
-    background: rgba(229, 9, 20, 0.1);
-}
-
-.breadcrumb-separator {
-    color: #666;
-    font-size: 0.8rem;
-}
-
-.breadcrumb-item-custom.active {
-    color: #e50914;
-    font-weight: 600;
-}
-
-/* Enhanced Category Header */
-/* Replace the existing .category-title rule with this: */
-.category-title {
-    color: #ffffff !important;
-    background: linear-gradient(135deg, #e50914 0%, #ff1744 50%, #ff6b6b 100%);
-    padding: 20px 30px;
-    border-radius: 15px;
-    font-weight: 800;
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-}
-
-/* Add shimmer effect */
-.category-title::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-.category-description {
-    color: #b3b3b3;
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-
-.results-info {
-    margin-top: 10px;
-    font-size: 0.9rem;
-}
-
-/* Enhanced Post Meta */
-.post-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.post-date {
-    color: #999;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-}
-
-.category-badge {
-    background: linear-gradient(45deg, #e50914, #ff1744);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Netflix-Style Pagination */
-.pagination-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-    padding: 30px 0;
-    gap: 20px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.pagination-list {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.page-item {
-    display: flex;
-}
-
-.page-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 48px;
-    height: 48px;
-    padding: 10px 18px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
-}
-
-.page-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    background: linear-gradient(45deg, #e50914, #ff1744);
-    transition: width 0.3s ease;
-    z-index: -1;
-}
-
-.page-link:hover {
-    color: #ffffff;
-    border-color: #e50914;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
-}
-
-.page-link:hover::before {
-    width: 100%;
-}
-
-.page-link.current {
-    background: linear-gradient(45deg, #e50914, #ff1744);
-    border-color: #e50914;
-    color: #ffffff;
-    font-weight: 800;
-    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5);
-    transform: scale(1.05);
-}
-
-.page-link.prev-next {
-    padding: 10px 24px;
-    gap: 10px;
-    font-weight: 700;
-    min-width: auto;
-}
-
-.page-link.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.page-link.disabled:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.page-info {
-    color: #b3b3b3;
-    font-size: 1rem;
-    font-weight: 500;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 10px 20px;
-    border-radius: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* No Results Styling */
-.no-results {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-    border-radius: 20px;
-    margin: 40px 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .category-title {
-        font-size: 2rem;
-    }
-    
-    .breadcrumb-custom {
-        padding: 12px 15px;
-        gap: 8px;
-    }
-    
-    .pagination-list {
-        gap: 4px;
-    }
-    
-    .page-link {
-        min-width: 42px;
-        height: 42px;
-        padding: 8px 14px;
-        font-size: 0.9rem;
-    }
-    
-    .page-link.prev-next {
-        padding: 8px 18px;
-    }
-    
-    .results-info {
-        text-align: center;
-    }
-    
-    .post-meta {
-        justify-content: center;
-    }
-}
-
-/* Smooth Animations */
-.latest-updates-grid {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Hover Effects for Post Cards */
-.post-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
-}
-
-.post-card:hover .category-badge {
-    background: linear-gradient(45deg, #ff1744, #ff6b6b);
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
-}
-</style>
 {% endblock %}

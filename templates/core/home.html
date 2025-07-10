@@ -1,7 +1,6 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<!-- Featured Sections (unchanged) -->
 {% for section in sections %}
 <div class="section">
     <div class="category-header">
@@ -27,7 +26,6 @@
 </div>
 {% endfor %}
 
-<!-- Latest Updates Section with Pagination -->
 {% if page_obj %}
 <div class="section">
     <div class="category-header">
@@ -66,12 +64,10 @@
         {% endfor %}
     </div>
     
-    <!-- Pagination Controls -->
     {% if page_obj.has_other_pages %}
     <div class="pagination-container">
         <nav aria-label="Page navigation">
             <ul class="pagination-list">
-                <!-- Previous Page -->
                 {% if page_obj.has_previous %}
                 <li class="page-item">
                     <a class="page-link prev-next" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" aria-label="Previous">
@@ -88,7 +84,6 @@
                 </li>
                 {% endif %}
                 
-                <!-- Page Numbers -->
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                     <li class="page-item active">
@@ -119,7 +114,6 @@
                     {% endif %}
                 {% endfor %}
                 
-                <!-- Next Page -->
                 {% if page_obj.has_next %}
                 <li class="page-item">
                     <a class="page-link prev-next" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" aria-label="Next">
@@ -138,7 +132,6 @@
             </ul>
         </nav>
         
-        <!-- Page Info -->
         <div class="page-info">
             <span class="text-muted">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
@@ -148,30 +141,33 @@
     {% endif %}
     
     {% else %}
-    <!-- No results message -->
-    <div class="no-results">
-        <div class="text-center py-5">
-            <i class="bi bi-search" style="font-size: 3rem; color: #666;"></i>
-            <h3 class="mt-3">No posts found</h3>
-            {% if query %}
-            <p class="text-muted">No results found for "{{ query }}". Try different keywords.</p>
-            <a href="{% url 'home' %}" class="btn btn-outline-light mt-3">
-                <i class="bi bi-arrow-left me-2"></i>Back to Home
-            </a>
-            {% else %}
-            <p class="text-muted">No additional posts available at the moment.</p>
-            {% endif %}
-        </div>
+    <div class="no-results text-center py-5">
+        <i class="bi bi-search" style="font-size: 3rem; color: var(--text-dim);"></i> {# Using text-dim for icon #}
+        <h3 class="mt-3" style="color: var(--text);">No posts found</h3> {# Using text color #}
+        {% if query %}
+        <p class="text-muted">No results found for "{{ query }}". Try different keywords.</p>
+        <a href="{% url 'home' %}" class="btn btn-outline-primary mt-3"> {# Changed to btn-outline-primary #}
+            <i class="bi bi-arrow-left me-2"></i>Back to Home
+        </a>
+        {% else %}
+        <p class="text-muted">No additional posts available at the moment.</p>
+        {% endif %}
     </div>
     {% endif %}
 </div>
 {% endif %}
 
-<!-- Add the pagination styles from the previous artifact here -->
 <style>
+/* Helper to convert hex to RGB for rgba() */
+/* This needs to be defined once, preferably in base.html's style or a main CSS file */
+:root {
+    --card-bg-rgb: 39, 52, 77; /* RGB equivalent of #27344D */
+}
+
 .results-info {
     margin-top: 8px;
     font-size: 0.9rem;
+    color: var(--text-muted); /* Consistent with muted text */
 }
 
 .pagination-container {
@@ -204,13 +200,13 @@
     min-width: 44px;
     height: 44px;
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(var(--card-bg-rgb), 0.3); /* Using transparent card-bg */
+    border: 2px solid var(--border-color); /* Using border-color */
     border-radius: 12px;
-    color: #ffffff;
+    color: var(--text); /* Using text color */
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed); /* Standardized transition */
     backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
@@ -223,16 +219,16 @@
     left: 0;
     width: 0;
     height: 100%;
-    background: linear-gradient(45deg, #e50914, #ff1744);
-    transition: width 0.3s ease;
+    background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Using new primary gradient */
+    transition: width var(--transition-speed);
     z-index: -1;
 }
 
 .page-link:hover {
-    color: #ffffff;
-    border-color: #e50914;
+    color: white; /* Ensure white text on hover */
+    border-color: var(--primary); /* Using primary color on hover */
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3);
+    box-shadow: 0 8px 25px var(--glow); /* Using new glow */
 }
 
 .page-link:hover::before {
@@ -240,11 +236,11 @@
 }
 
 .page-link.current {
-    background: linear-gradient(45deg, #e50914, #ff1744);
-    border-color: #e50914;
-    color: #ffffff;
+    background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Using new primary gradient */
+    border-color: var(--primary); /* Using primary color */
+    color: white; /* Ensure white text */
     font-weight: 700;
-    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+    box-shadow: 0 4px 15px var(--glow); /* Using new glow */
 }
 
 .page-link.prev-next {
@@ -257,26 +253,28 @@
 .page-link.disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(var(--card-bg-rgb), 0.1); /* Lighter transparent card-bg */
+    border-color: var(--border-color); /* Using border-color */
 }
 
 .page-link.disabled:hover {
     transform: none;
     box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border-color); /* Maintain border color */
 }
 
 .page-info {
-    color: #b3b3b3;
+    color: var(--text-muted); /* Consistent with muted text */
     font-size: 0.9rem;
     font-weight: 500;
 }
 
 .no-results {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(var(--card-bg-rgb), 0.15); /* Transparent card-bg for no-results */
+    border: 1px solid var(--border-color); /* Consistent border */
     border-radius: 15px;
     margin: 20px 0;
+    padding: 30px; /* Added padding for better appearance */
 }
 
 /* Mobile Responsive */
@@ -298,6 +296,15 @@
     
     .results-info {
         text-align: center;
+    }
+    
+    .no-results {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+    
+    .no-results .btn { /* Style for the "Back to Home" button */
+        font-size: 0.9rem;
+        padding: 8px 15px;
     }
 }
 

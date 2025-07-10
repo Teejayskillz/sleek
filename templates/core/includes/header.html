@@ -1,9 +1,25 @@
-<!-- Add this CSS to your Django template or CSS file -->
+{% load static %}
 <style>
+  /* NEW COLOR PALETTE & GLOBAL STYLES FOR HEADER (Copied from base.html for consistency) */
+  :root {
+      --dark-bg: #1A1A2E; /* Deep Purple-Blue */
+      --darker-bg: #16213E; /* Even Deeper */
+      --card-bg: #27344D; /* Softer Blue-Gray for cards */
+      --primary: #00ADB5; /* Teal - A fresh, vibrant primary color */
+      --primary-hover: #008D96; /* Darker Teal for hover */
+      --text: #E0E0E0; /* Off-white for better readability on dark */
+      --text-muted: #A0A0B0; /* Muted text */
+      --text-dim: #707080; /* Dim text */
+      --border-color: #3F4A6A; /* Border color related to new palette */
+      --shadow: rgba(0, 0, 0, 0.6); /* Slightly less harsh shadow */
+      --glow: rgba(0, 173, 181, 0.4); /* Glow matching new primary */
+      --transition-speed: 0.3s ease-in-out; /* Standardized transition */
+  }
+
   .header-gradient {
-    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-    border-bottom: 3px solid #e50914;
+    background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, var(--card-bg) 100%); /* Uses new dark gradients */
+    box-shadow: 0 8px 32px var(--shadow); /* Uses new shadow variable */
+    border-bottom: 3px solid var(--primary); /* Uses new primary color */
     position: relative;
     overflow: hidden;
   }
@@ -15,34 +31,34 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 0%, rgba(229, 9, 20, 0.08) 50%, transparent 100%);
+    background: linear-gradient(45deg, transparent 0%, rgba(0, 173, 181, 0.08) 50%, transparent 100%); /* Uses new primary's transparent color */
     pointer-events: none;
   }
 
   .logo-brand {
-    font-family: 'Arial Black', sans-serif;
-    font-weight: 900;
+    font-family: 'Inter', sans-serif; /* Changed to Inter for consistency with base */
+    font-weight: 800; /* Adjusted for Inter's boldness */
     font-size: 2.2rem;
-    background: linear-gradient(45deg, #e50914, #ff6b6b);
+    background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Uses new primary gradients */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
-    transition: all 0.3s ease;
+    text-shadow: 0 0 20px var(--glow); /* Uses new glow variable */
+    transition: all var(--transition-speed); /* Standardized transition speed */
     position: relative;
   }
 
   .logo-brand:hover {
     transform: scale(1.05);
-    filter: drop-shadow(0 0 15px rgba(229, 9, 20, 0.8));
+    filter: drop-shadow(0 0 15px var(--glow)); /* Uses new glow variable */
   }
 
   .tagline {
-    color: #b3b3b3 !important;
+    color: var(--text-muted) !important; /* Uses new muted text color */
     font-size: 0.85rem;
     font-weight: 300;
     margin-top: 2px;
-    opacity: 0.8;
+    opacity: 0.9; /* Slightly less opaque */
   }
 
   .search-container {
@@ -50,32 +66,32 @@
   }
 
   .search-input {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 2px solid rgba(255, 255, 255, 0.2) !important;
-    color: white !important;
+    background: rgba(var(--card-bg-rgb), 0.3) !important; /* Uses card-bg with transparency */
+    border: 2px solid var(--border-color) !important; /* Uses new border color */
+    color: var(--text) !important; /* Uses new text color */
     border-radius: 25px !important;
     padding: 12px 20px !important;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
     backdrop-filter: blur(10px);
   }
 
   .search-input:focus {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border-color: #e50914 !important;
-    box-shadow: 0 0 20px rgba(229, 9, 20, 0.3) !important;
-    color: white !important;
+    background: rgba(var(--card-bg-rgb), 0.5) !important; /* Slightly more opaque on focus */
+    border-color: var(--primary) !important; /* Uses new primary color */
+    box-shadow: 0 0 20px var(--glow) !important; /* Uses new glow variable */
+    color: var(--text) !important;
   }
 
   .search-input::placeholder {
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: var(--text-muted) !important; /* Uses new muted text for placeholder */
   }
 
   .search-btn {
     border: none !important;
-    background: linear-gradient(45deg, #e50914, #ff1744) !important;
+    background: linear-gradient(45deg, var(--primary), var(--primary-hover)) !important; /* Uses new primary gradient */
     border-radius: 0 25px 25px 0 !important;
     padding: 12px 20px !important;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
     position: relative;
     overflow: hidden;
   }
@@ -89,7 +105,7 @@
     height: 0;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
     transform: translate(-50%, -50%);
   }
 
@@ -99,35 +115,39 @@
   }
 
   .search-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+    transform: translateY(-2px); /* Slightly less aggressive lift */
+    box-shadow: 0 5px 15px var(--glow); /* Uses new glow */
   }
 
   .admin-btn {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    background: rgba(var(--card-bg-rgb), 0.3) !important; /* Uses card-bg with transparency */
+    border: 2px solid var(--border-color) !important; /* Uses new border color */
     border-radius: 20px !important;
     padding: 8px 16px !important;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
     backdrop-filter: blur(10px);
     font-weight: 500;
+    color: var(--text) !important; /* Ensure text color is consistent */
   }
 
   .admin-btn:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
+    background: rgba(var(--card-bg-rgb), 0.5) !important; /* Slightly more opaque on hover */
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Subtle dark shadow */
+    color: var(--primary) !important; /* Text color changes to primary on hover */
+    border-color: var(--primary) !important; /* Border color changes to primary on hover */
   }
 
   .telegram-btn {
-    background: linear-gradient(45deg, #e50914, #ff1744) !important;
+    background: linear-gradient(45deg, #0088cc, #00aaff) !important; /* Kept original Telegram colors as it's a brand */
     border: none !important;
     border-radius: 20px !important;
     padding: 8px 16px !important;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
     position: relative;
     overflow: hidden;
+    color: white !important; /* Ensure white text */
   }
 
   .telegram-btn::before {
@@ -147,24 +167,24 @@
 
   .telegram-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4); /* Telegram specific glow */
   }
 
   .category-nav {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(var(--dark-bg-rgb), 0.5); /* Uses dark-bg with transparency */
     backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-color); /* Uses new border color */
     padding: 15px 0;
   }
 
   .category-btn {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background: rgba(var(--card-bg-rgb), 0.2) !important; /* Uses card-bg with transparency */
+    border: 1px solid var(--border-color) !important; /* Uses new border color */
     border-radius: 25px !important;
     padding: 10px 20px !important;
-    color: #ffffff !important;
+    color: var(--text) !important; /* Uses new text color */
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed);
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
@@ -178,16 +198,16 @@
     left: 0;
     width: 0;
     height: 100%;
-    background: linear-gradient(45deg, #e50914, #ff1744);
-    transition: width 0.3s ease;
+    background: linear-gradient(45deg, var(--primary), var(--primary-hover)); /* Uses new primary gradient */
+    transition: width var(--transition-speed);
     z-index: -1;
   }
 
   .category-btn:hover {
-    color: #ffffff !important;
-    border-color: #e50914 !important;
+    color: white !important; /* Ensure white text on hover */
+    border-color: var(--primary) !important; /* Uses new primary color */
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3);
+    box-shadow: 0 8px 25px var(--glow); /* Uses new glow */
   }
 
   .category-btn:hover::before {
@@ -214,19 +234,29 @@
       align-self: stretch;
       justify-content: center;
     }
+    
+    .category-nav {
+      padding: 10px 0; /* Slightly reduce padding on mobile */
+    }
+    
+    .category-btn {
+      padding: 8px 15px !important; /* Slightly smaller buttons on mobile */
+      font-size: 0.9rem;
+    }
   }
 
-  /* Smooth animations */
-  * {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Helper to convert hex to RGB for rgba() */
+  /* You would typically use SASS or a build tool for this,
+     but for direct CSS variables, you sometimes need to define RGB values */
+  :root {
+      --card-bg-rgb: 39, 52, 77; /* RGB equivalent of #27344D */
+      --dark-bg-rgb: 26, 26, 46; /* RGB equivalent of #1A1A2E */
   }
 </style>
 
-<!-- Enhanced Header HTML -->
 <header class="header-gradient text-white p-3 mb-4">
   <div class="container">
     <div class="d-flex justify-content-between align-items-center header-content">
-      <!-- Enhanced Logo -->
       <div class="logo-section">
         <h1 class="m-0">
           <a href="{% url 'home' %}" class="text-decoration-none logo-brand">JaraFlix</a>
@@ -234,7 +264,6 @@
         <small class="tagline">Your Ultimate Entertainment Hub</small>
       </div>
       
-      <!-- Enhanced Search Bar -->
       <div class="search-container w-50">
         <form action="{% url 'search' %}" method="get">
           <div class="input-group">
@@ -247,7 +276,6 @@
         </form>
       </div>
       
-      <!-- Enhanced Admin Links -->
       <div class="admin-controls d-flex gap-2">
         {% if user.is_staff %}
         <a href="{% url 'admin:index' %}" class="btn btn-sm admin-btn">
@@ -261,7 +289,6 @@
     </div>
   </div>
   
-  <!-- Enhanced Categories Navigation -->
   <nav class="category-nav mt-3">
     <div class="container">
       <div class="d-flex flex-wrap justify-content-center gap-1">
