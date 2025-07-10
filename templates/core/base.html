@@ -4,19 +4,19 @@
 <head>
  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Sleekpedia</title>
-    <meta name="description" content="{% block meta_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Sleekpedia. Get movie reviews, trailers, and more.' }}{% endblock %}">
+    <title>{% block title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - JaraFlix</title>
+    <meta name="description" content="{% block meta_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows onJaraFlix. Get movie reviews, trailers, and more.' }}{% endblock %}">
 
     {# Open Graph Tags (for Facebook, WhatsApp, LinkedIn) #}
     <meta property="og:locale" content="en_US"/>
-    <meta property="og:site_name" content="Sleekpedia"/>
-    <meta property="og:title" content="{% block og_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Sleekpedia">
+    <meta property="og:site_name" content="JaraFlix"/>
+    <meta property="og:title" content="{% block og_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - JaraFlix">
     
     {# Use the pre-calculated absolute URL from the view #}
     <meta property="og:url" content="{{ post_absolute_url }}">
     
     <meta property="og:type" content="article">
-    <meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on Sleekpedia.' }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on JaraFlix.' }}{% endblock %}">
     
     {# Use the pre-calculated absolute URL for thumbnail #}
     <meta property="og:image" content="{{ thumbnail_absolute_url }}">
@@ -36,15 +36,15 @@
 
     {# Twitter Card Tags #}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - Sleekpedia">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - JaraFlix">
     {# Use the pre-calculated absolute URL #}
     <meta name="twitter:url" content="{{ post_absolute_url }}">
-    <meta name="twitter:description" content="{% block twitter_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV Shows on Sleekpedia.' }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV Shows on JaraFlix.' }}{% endblock %}">
     
     {# Use the pre-calculated absolute URL for thumbnail #}
     <meta name="twitter:image" content="{{ thumbnail_absolute_url }}">
     
-    <meta name="twitter:site" content="@Sleekpedia>
+    <meta name="twitter:site" content="@JaraFlix>
     <meta name="twitter:creator" content="@YourCreatorHandle">
     
     {# Canonical URL - Use the pre-calculated absolute URL #}
