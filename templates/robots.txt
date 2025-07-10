@@ -41,6 +41,6 @@ Disallow: /
 User-agent: *
 Disallow:
 
-Sitemap: https://sleekpedia.com.ng/sitemap.xml
+Sitemap: https://jaraflix.com/sitemap.xml
 # ---------------------------
 # END YOAST BLOCK
