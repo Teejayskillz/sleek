@@ -27,7 +27,7 @@ User-agent: ClaudeBot
 Disallow: /
 
 User-agent: Google-Extended
-# Disallow: /  <-- THIS LINE MUST REMAIN COMMENTED OUT OR BE REMOVED ENTIRELY for Google-Extended to crawl
+
 
 User-agent: GPTBot
 Disallow: /
