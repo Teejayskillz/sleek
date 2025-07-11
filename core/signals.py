@@ -31,7 +31,7 @@ def auto_post_to_telegram(sender, instance, **kwargs):
         bot = Bot(token=bot_token)
 
         current_site = Site.objects.get_current()
-        post_url = f"http://{current_site.domain}{instance.get_absolute_url()}" 
+        post_url = f"https://{current_site.domain}{instance.get_absolute_url()}" 
 
         escaped_post_url = escape_markdown(post_url, version=2)
 
