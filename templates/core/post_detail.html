@@ -911,8 +911,7 @@ textarea.form-control {
             <div class="quality-buttons">
                 {% for quality in post.qualities.all %}
                 <a href="{% url 'download_quality' quality.pk %}" 
-                   class="quality-btn"
-                   target="_blank">
+                   class="quality-btn">
                    <div class="quality-info">
                        <i class="bi bi-film"></i>
                        <span class="quality-name">{{ quality.get_quality_display }}</span>
@@ -934,7 +933,7 @@ textarea.form-control {
                 {% for sub in post.subtitles.all %}
                 <a href="{% url 'download_subtitle' sub.pk %}"
                    class="subtitle-btn"
-                   target="_blank">
+                   title="Download {{ sub.language }} Subtitle">
                    <div class="subtitle-info">
                        <i class="bi bi-translate"></i>
 
