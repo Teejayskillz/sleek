@@ -279,7 +279,7 @@ TELEGRAM_CHANNEL_IDS = TELEGRAM_CHANNEL_IDS = [
     '@djjdjdndjdj',
     '@vvhdhhsb',
     '@ifgjjc',
-    '@jaraflix',
+    '@jaraflix2',
 ]
 
 # Django Sites Framework
