@@ -1,4 +1,3 @@
-# core/signals.py
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -79,6 +78,10 @@ def auto_post_to_telegram(sender, instance, **kwargs):
                 try:
                     logger.info(f"Attempting to send '{instance.title}' to Telegram channel: {chat_id}")
                     
+                    # --- ADDED THIS LINE TO LOG THE PHOTO URL ---
+                    logger.info(f"Generated photo_url for '{instance.title}': {photo_url}") 
+                    # --- END ADDITION ---
+
                     if photo_url:
                         await bot.send_photo(
                             chat_id=chat_id,
