@@ -125,6 +125,8 @@ class DownloadQuality(models.Model):
         ('480p', 'DOWNLOAD MOVIE [480p]'), 
         ('720p', 'DOWNLOAD MOVIE [720p (HD)]'),
         ('1080p', 'DOWNLOAD MOVIE 1080p (FHD)]'),
+        ('mp3', 'DOWNLOAD MUSIC/MP3'),
+        ('ZIP', 'DOWNLOAD FULL ALBUM [ZIP]'),
         ('4K', 'DOWNLOAD [4K (UHD)]'),
         ('EP1', 'DOWNLOAD EPISODE 1'),
         ('EP2', 'DOWNLOAD EPISODE 2'),
