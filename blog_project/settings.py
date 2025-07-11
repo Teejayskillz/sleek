@@ -34,6 +34,25 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true' # Read from .env, default 
 ALLOWED_HOSTS_STR = os.getenv('ALLOWED_HOSTS', '').split(',')
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR if host.strip()]
 
+# *** ADD THESE SETTINGS FOR HTTPS BEHIND A PROXY (LiteSpeed) ***
+# This tells Django that if the 'X-Forwarded-Proto' header from the proxy is 'https',
+# then the request should be considered secure. LiteSpeed typically sends this.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# This tells Django to use the 'X-Forwarded-Host' header for determining the host,
+# which is common when behind a proxy.
+USE_X_FORWARDED_HOST = True
+
+# Optional: Force all HTTP requests to redirect to HTTPS at the Django level.
+# Use with caution if your web server (LiteSpeed) is already doing this,
+# as it could cause infinite redirects. Test thoroughly.
+# SECURE_SSL_REDIRECT = True 
+
+# Ensure cookies are sent only over HTTPS for security
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# *** END ADDITIONS ***
+
 
 # Application definition
 
@@ -55,8 +74,9 @@ INSTALLED_APPS = [
 
 
 CKEDITOR_5_UPLOAD_PATH = "media/"
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media' # Ensure this is correctly set
+# MEDIA_URL and MEDIA_ROOT are already defined correctly later, no change needed here
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media' 
 
 # Example CKEditor 5 config with image upload
 # settings.py
@@ -317,4 +337,4 @@ LOGGING = {
     }
 }
 
-TAGGIT_TAG_MODEL = 'core.MyCustomTag' 
+TAGGIT_TAG_MODEL = 'core.MyCustomTag'
