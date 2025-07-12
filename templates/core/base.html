@@ -13,20 +13,19 @@
 </script>
  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - JaraFlix</title>
-    <meta name="description" content="{% block meta_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows onJaraFlix. Get movie reviews, trailers, and more.' }}{% endblock %}">
+<title>{% block title %}{{ post.get_page_title|default:'Stream Movies, TV Shows & Download Music' }}{% endblock %} - JaraFlix</title>
+<meta name="description" content="{% block meta_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies, TV shows, and music. Get reviews, trailers, and more on JaraFlix.' }}{% endblock %}">
 
-    {# Open Graph Tags (for Facebook, WhatsApp, LinkedIn) #}
-    <meta property="og:locale" content="en_US"/>
-    <meta property="og:site_name" content="JaraFlix"/>
-    <meta property="og:title" content="{% block og_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - JaraFlix">
-    
-    {# Use the pre-calculated absolute URL from the view #}
-    <meta property="og:url" content="{{ post_absolute_url }}">
-    
-    <meta property="og:type" content="article">
-    <meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV shows on JaraFlix.' }}{% endblock %}">
-    
+{# Open Graph Tags (for Facebook, WhatsApp, LinkedIn) #}
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="JaraFlix"/>
+<meta property="og:title" content="{% block og_title %}{{ post.get_page_title|default:'Stream Movies, TV Shows & Download Music' }}{% endblock %} - JaraFlix">
+
+{# Use the pre-calculated absolute URL from the view #}
+<meta property="og:url" content="{{ post_absolute_url }}">
+
+<meta property="og:type" content="article">
+<meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies, TV shows, and music on JaraFlix.' }}{% endblock %}">
     {# Use the pre-calculated absolute URL for thumbnail #}
     <meta property="og:image" content="{{ thumbnail_absolute_url }}">
     <meta property="og:image:url" content="{{ thumbnail_absolute_url }}">

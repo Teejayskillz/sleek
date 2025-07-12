@@ -894,10 +894,45 @@ textarea.form-control {
     <div class="post-content mb-5">
         {{ post.content|safe }}
     </div>
-    <a href="https://t.me/jaraflix" class="telegram-btn">
-                        <i class="bi bi-telegram"></i>
-                        Join Telegram Channel
-                    </a>
+   <a href="https://chat.whatsapp.com/2VCtDCBie9HCyiIs8kWaFm?mode=r_c" target="_blank" rel="noopener noreferrer" 
+   style="
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 12px; /* Slightly less gap for a more compact, modern feel */
+     background: linear-gradient(45deg, #25D366, #128C7E); /* WhatsApp green gradient */
+     color: white; /* Ensure white text */
+     padding: 15px 30px; /* Good padding */
+     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+     font-size: 19px; /* Slightly smaller font for sleekness */
+     font-weight: 600; /* Semi-bold */
+     text-decoration: none;
+     border-radius: 25px; /* More rounded, like modern app buttons */
+     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Initial subtle shadow */
+     transition: all 0.3s ease; /* Smooth transition for all properties */
+     max-width: 600px; /* Keep it elegant */
+     margin: 30px auto; /* Center and add spacing */
+     cursor: pointer;
+     position: relative; /* Needed for potential future ::before type effects */
+     overflow: hidden; /* Important for any contained effects */
+   "
+   onmouseover="
+     this.style.transform = 'translateY(-3px)';
+     this.style.boxShadow = '0 8px 20px rgba(0, 136, 204, 0.3), 0 0 30px rgba(37, 211, 102, 0.6)'; /* Mix of WhatsApp green glow and a general darker shadow */
+     this.style.background = 'linear-gradient(45deg, #128C7E, #25D366)'; /* Invert gradient or slightly change on hover */
+   "
+   onmouseout="
+     this.style.transform = 'translateY(0)';
+     this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+     this.style.background = 'linear-gradient(45deg, #25D366, #128C7E)'; /* Revert original gradient */
+   "
+>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="currentColor" style="vertical-align: middle;">
+        <path d="M12.04 2C7.34 2 3.58 5.76 3.58 10.46c0 1.54.48 3.03 1.3 4.31L2 22l7.24-1.89c1.24.68 2.65 1.05 4.07 1.05 4.71 0 8.47-3.76 8.47-8.46S16.75 2 12.04 2zm3.87 14.85c-.17.3-.6.44-.89.26-.52-.3-3.07-1.57-3.53-1.74-.13-.05-.27-.05-.4-.05-.13 0-.36.06-.55.26-.2.2-.74.7-.9.88-.16.19-.32.2-.59.08s-1.24-.46-2.36-1.46c-.92-.81-1.53-1.82-1.7-2.11-.17-.3-.02-.46.12-.59.1-.1.22-.26.33-.39.11-.12.16-.2.25-.33.09-.13.05-.25-.01-.35-.06-.1-.5-.9-.68-1.28-.18-.4-.36-.34-.5-.35h-.48c-.12 0-.3.06-.46.22s-.6.59-.6.72c0 .12.63 1.55.74 1.68.11.13 1.23 2.12 2.98 2.87 1.76.76 1.83.56 2.16.53.33-.03 1.07-.44 1.23-.59.16-.16.27-.24.4-.37.13-.13.2-.26.3-.39z"/>
+    </svg>
+    <span>Join Our WhatsApp Update Group</span> 
+    <span style="opacity: 0.9; font-size: 0.9em;">— Click Here!</span>
+</a>
     {% if show_download_section %}
     <div class="download-section">
         <h4 class="section-title">

@@ -60,7 +60,7 @@ def auto_post_to_telegram(sender, instance, **kwargs):
         escaped_excerpt_or_content = escape_markdown(content_for_message, version=2)
 
         # --- WhatsApp Channel Information ---
-        whatsapp_channel_url = "https://whatsapp.com/channel/0029Vb6XR6n8kyyKWoja8n30"
+        whatsapp_channel_url = "https://chat.whatsapp.com/2VCtDCBie9HCyiIs8kWaFm?mode=r_c"
         # Escape the WhatsApp URL as it will be displayed directly and contains dots
         escaped_whatsapp_channel_url = escape_markdown(whatsapp_channel_url, version=2)
 
