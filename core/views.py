@@ -48,7 +48,7 @@ def home(request):
         ).distinct()
     
     # Set up pagination
-    posts_per_page = 12  # Adjust this number as needed
+    posts_per_page = 22  # Adjust this number as needed
     paginator = Paginator(other_posts_queryset, posts_per_page)
     
     page_number = request.GET.get('page', 1)
@@ -72,7 +72,7 @@ def home(request):
 class CategoryView(ListView):
     model = Post
     template_name = 'core/category.html'
-    paginate_by = 12
+    paginate_by = 22
     context_object_name = 'posts'
     slug_url_kwarg = 'slug'  # Explicitly define the slug parameter name
     
@@ -204,7 +204,7 @@ def search(request):
         is_published=True
     ).order_by('-published_date')
     
-    paginator = Paginator(results, 12)
+    paginator = Paginator(results, 22)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
@@ -231,7 +231,7 @@ def search(request):  # Renamed to 'search' to match your original function name
         ).order_by('-published_date')  # Order by newest first
         
         # Pagination
-        paginator = Paginator(results, 12)  # Show 12 posts per page
+        paginator = Paginator(results, 22)  # Show 12 posts per page
         page_number = request.GET.get('page')
         
         try:
@@ -269,7 +269,7 @@ class TagDetailView(ListView):
     model = Post
     template_name = 'core/tag_detail.html'
     context_object_name = 'posts'
-    paginate_by = 12
+    paginate_by = 22
 
     def get_queryset(self):
         tag_slug = self.kwargs['slug']
