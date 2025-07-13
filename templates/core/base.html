@@ -54,7 +54,7 @@
     
     {# FIXED: Added missing closing quote for content attribute #}
     <meta name="twitter:site" content="@JaraFlix">
-    <meta name="twitter:creator" content="@jaraflix">
+    <meta name="twitter:creator" content="@YourCreatorHandle">
     
     {# Canonical URL - Use the pre-calculated absolute URL, with fallback to current page URL #}
     <link rel="canonical" href="{% if post_absolute_url %}{{ post_absolute_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}" />
@@ -579,15 +579,13 @@
             
             <div class="ad-section">
                 {# Removed: Pop-up ad warning #}
-                {# Removed: Obfuscated ad script from here #}
+                
                 <div class="ad-slot-container">
-                    {# Replace with your new, non-intrusive ad code #}
-                    {# {{ ads_by_slug.header1|safe }} #} 
+                    {{ ads_by_slug.header1|safe }}
                 </div>
 
                 <div class="ad-slot-container">
-                     {# Replace with your new, non-intrusive ad code #}
-                     {# {{ ads_by_slug.header2|safe }} #}
+                     {{ ads_by_slug.header2|safe }}
                 </div>
                 
             </div>
@@ -602,8 +600,7 @@
                             <div class="sidebar-section">
                                 <h4><i class="fas fa-ad"></i> Sponsored</h4>
                                 <div class="text-center" style="padding: 30px; border: 2px dashed var(--border-color); border-radius: 8px; color: var(--text-dim);">
-                                   {# Replace with your new, non-intrusive ad code #}
-                                   {# {{ ads_by_slug.sidebar1|safe }} #}
+                                   {{ ads_by_slug.sidebar1|safe }}
                                 </div>
                             </div>
 
