@@ -2,8 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T46JJJY4PG"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T46JJJY4PG"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -21,17 +20,17 @@
     <meta property="og:site_name" content="JaraFlix"/>
     <meta property="og:title" content="{% block og_title %}{{ post.get_page_title|default:'Stream Movies, TV Shows & Download Music' }}{% endblock %} - JaraFlix">
     
-    {# Use the pre-calculated absolute URL from the view #}
-    <meta property="og:url" content="{{ post_absolute_url }}">
+    {# Use the pre-calculated absolute URL from the view, with fallback to current page URL #}
+    <meta property="og:url" content="{% if post_absolute_url %}{{ post_absolute_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}">
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="{% block og_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies, TV shows, and music on JaraFlix.' }}{% endblock %}">
     
-    {# Use the pre-calculated absolute URL for thumbnail #}
-    <meta property="og:image" content="{{ thumbnail_absolute_url }}">
-    <meta property="og:image:url" content="{{ thumbnail_absolute_url }}">
-    <meta property="og:image:secure_url" content="{{ thumbnail_absolute_url }}">
-    <meta name="monetag" content="a0cd4870d9a8650bade79bee4ec2bcb0">
+    {# Use the pre-calculated absolute URL for thumbnail, with fallback to default site logo #}
+    <meta property="og:image" content="{% if thumbnail_absolute_url %}{{ thumbnail_absolute_url }}{% else %}{% static 'images/default_site_logo.png' %}{% endif %}">
+    <meta property="og:image:url" content="{% if thumbnail_absolute_url %}{{ thumbnail_absolute_url }}{% else %}{% static 'images/default_site_logo.png' %}{% endif %}">
+    <meta property="og:image:secure_url" content="{% if thumbnail_absolute_url %}{{ thumbnail_absolute_url }}{% else %}{% static 'images/default_site_logo.png' %}{% endif %}">
+    {# Removed: <meta name="monetag" content="a0cd4870d9a8650bade79bee4ec2bcb0"> #}
     {% if post.thumbnail %}
         {# If you have width/height stored in your model, use them here #}
         <meta property="og:image:width" content="1200">
@@ -46,18 +45,19 @@
     {# Twitter Card Tags #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}{{ post.get_page_title|default:'Watch Latest Movies & TV Shows' }}{% endblock %} - JaraFlix">
-    {# Use the pre-calculated absolute URL #}
-    <meta name="twitter:url" content="{{ post_absolute_url }}">
+    {# Use the pre-calculated absolute URL, with fallback to current page URL #}
+    <meta name="twitter:url" content="{% if post_absolute_url %}{{ post_absolute_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}">
     <meta name="twitter:description" content="{% block twitter_description %}{{ post.excerpt|default:'Stream and download the latest Nollywood, Hollywood, and Bollywood movies and TV Shows on JaraFlix.' }}{% endblock %}">
     
-    {# Use the pre-calculated absolute URL for thumbnail #}
-    <meta name="twitter:image" content="{{ thumbnail_absolute_url }}">
+    {# Use the pre-calculated absolute URL for thumbnail, with fallback to default site logo #}
+    <meta name="twitter:image" content="{% if thumbnail_absolute_url %}{{ thumbnail_absolute_url }}{% else %}{% static 'images/default_site_logo.png' %}{% endif %}">
     
-    <meta name="twitter:site" content="@JaraFlix>
-    <meta name="twitter:creator" content="@YourCreatorHandle">
+    {# FIXED: Added missing closing quote for content attribute #}
+    <meta name="twitter:site" content="@JaraFlix">
+    <meta name="twitter:creator" content="@jaraflix">
     
-    {# Canonical URL - Use the pre-calculated absolute URL #}
-    <link rel="canonical" href="{{ post_absolute_url }}" />
+    {# Canonical URL - Use the pre-calculated absolute URL, with fallback to current page URL #}
+    <link rel="canonical" href="{% if post_absolute_url %}{{ post_absolute_url }}{% else %}{{ request.build_absolute_uri }}{% endif %}" />
     {# Your favicon links will now correctly point to: /static/images/favicon.ico #}
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
@@ -578,18 +578,16 @@
             {% include 'core/includes/header.html' %}
             
             <div class="ad-section">
-                <div class="alert alert-warning text-center" style="margin-bottom: 8px; padding: 8px; font-size: 0.8rem;">
-                    <strong>NOTICE:</strong> This site uses pop-up ads. Please close unwanted tabs.
-                </div>
-
-               
-
+                {# Removed: Pop-up ad warning #}
+                {# Removed: Obfuscated ad script from here #}
                 <div class="ad-slot-container">
-                    {{ ads_by_slug.header1|safe }}
+                    {# Replace with your new, non-intrusive ad code #}
+                    {# {{ ads_by_slug.header1|safe }} #} 
                 </div>
 
                 <div class="ad-slot-container">
-                     {{ ads_by_slug.header2|safe }}
+                     {# Replace with your new, non-intrusive ad code #}
+                     {# {{ ads_by_slug.header2|safe }} #}
                 </div>
                 
             </div>
@@ -604,7 +602,8 @@
                             <div class="sidebar-section">
                                 <h4><i class="fas fa-ad"></i> Sponsored</h4>
                                 <div class="text-center" style="padding: 30px; border: 2px dashed var(--border-color); border-radius: 8px; color: var(--text-dim);">
-                                   {{ ads_by_slug.sidebar1|safe }}
+                                   {# Replace with your new, non-intrusive ad code #}
+                                   {# {{ ads_by_slug.sidebar1|safe }} #}
                                 </div>
                             </div>
 
@@ -625,7 +624,7 @@
                                                  style="object-fit: cover; border-radius: 5px;"
                                                  loading="lazy">
                                         {% else %}
-                                            <img src="/static/images/default_thumbnail.jpg"
+                                            <img src="{% static 'images/default_thumbnail.jpg' %}"
                                                  alt="No Image"
                                                  width="100" height="100"
                                                  style="object-fit: cover; border-radius: 5px;"
@@ -657,7 +656,7 @@
                                                  style="object-fit: cover; border-radius: 5px;"
                                                  loading="lazy">
                                         {% else %}
-                                            <img src="/static/images/default_thumbnail.jpg"
+                                            <img src="{% static 'images/default_thumbnail.jpg' %}"
                                                  alt="No Image"
                                                  width="100" height="100"
                                                  style="object-fit: cover; border-radius: 5px;"
