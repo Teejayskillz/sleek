@@ -1,6 +1,6 @@
 from django.urls import path
 from django.views.generic.base import RedirectView
-from .views import home, CategoryView, PostDetailView, search, download_quality, download_subtitle, TagDetailView
+from .views import home, CategoryView, PostDetailView, search, download_quality, download_subtitle, TagDetailView, PageView
 
 urlpatterns = [
     path('', home, name='home'),
