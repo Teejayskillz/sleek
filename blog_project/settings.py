@@ -212,32 +212,25 @@ DATABASES = {
         'HOST': os.getenv('DB_HOST'),        # Read from .env
         'PORT': os.getenv('DB_PORT'),        # Read from .env
         'OPTIONS': {
-            # This init_command has been updated to explicitly remove problematic SQL modes.
-            # It now aims to disable 'STRICT_TRANS_TABLES' and 'NO_AUTO_VALUE_ON_ZERO'.
+            # This init_command has been updated to use an empty SQL mode.
+            # This is the most permissive setting and often resolves conflicts
+            # with Django's AutoField and other database operations by disabling
+            # all strict SQL modes, including 'NO_AUTO_VALUE_ON_ZERO' and 'STRICT_TRANS_TABLES'.
             #
-            # The most common default modes in MySQL 8.0+ are:
-            # ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,
-            # ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
-            #
-            # We want to remove 'STRICT_TRANS_TABLES' and 'NO_AUTO_VALUE_ON_ZERO' (if present).
-            # A common safe set of modes for Django is:
-            'init_command': "SET sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'",
-            #
-            # If you previously found your exact sql_mode using 'SELECT @@sql_mode;'
-            # in phpMyAdmin, you should copy that string, remove 'STRICT_TRANS_TABLES'
-            # and 'NO_AUTO_VALUE_ON_ZERO' from it, and use your customized string here.
-            # Example:
-            # 'init_command': "SET sql_mode='YOUR_CUSTOMIZED_SQL_MODE_STRING_HERE'",
-            #
-            # If the above string still causes issues, or if you want the most permissive mode
-            # (use with caution in production, as it can hide data integrity issues):
-            # 'init_command': "SET sql_mode=''",
+            # While this resolves the immediate error, be aware that a completely empty
+            # sql_mode might allow some data integrity issues that strict modes prevent.
+            # For a production environment, after confirming this fixes the migration,
+            # you might want to gradually re-introduce specific modes that are crucial
+            # for your application's data integrity (e.g., ONLY_FULL_GROUP_BY, ERROR_FOR_DIVISION_BY_ZERO),
+            # ensuring 'NO_AUTO_VALUE_ON_ZERO' and 'STRICT_TRANS_TABLES' are explicitly omitted.
+            'init_command': "SET sql_mode=''",
 
             'charset': 'utf8mb4', # For older MySQL versions or specific needs.
         },
 
     }
 }
+
 
 
 # Password validation
