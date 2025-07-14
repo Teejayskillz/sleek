@@ -202,6 +202,7 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -211,7 +212,12 @@ DATABASES = {
         'HOST': os.getenv('DB_HOST'),        # Read from .env
         'PORT': os.getenv('DB_PORT'),        # Read from .env
         'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            # This line has been updated to disable STRICT_TRANS_TABLES.
+            # If 'STRICT_TRANS_TABLES' was the only mode set, setting it to an empty string
+            # will resolve the "Field 'id' doesn't have a default value" error.
+            # If you had other modes you wished to keep, you would list them here,
+            # ensuring 'STRICT_TRANS_TABLES' is omitted.
+            'init_command': "SET sql_mode=''",
             # For older MySQL versions or specific needs:
             'charset': 'utf8mb4',
         },
