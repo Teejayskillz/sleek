@@ -212,24 +212,22 @@ DATABASES = {
         'HOST': os.getenv('DB_HOST'),        # Read from .env
         'PORT': os.getenv('DB_PORT'),        # Read from .env
         'OPTIONS': {
-            # This init_command has been updated to use an empty SQL mode.
-            # This is the most permissive setting and often resolves conflicts
-            # with Django's AutoField and other database operations by disabling
-            # all strict SQL modes, including 'NO_AUTO_VALUE_ON_ZERO' and 'STRICT_TRANS_TABLES'.
+            # This init_command has been updated to explicitly list recommended SQL modes,
+            # ensuring 'STRICT_TRANS_TABLES' and 'NO_AUTO_VALUE_ON_ZERO' are omitted.
+            # This is often more reliable than an empty string if the database has
+            # stubborn default modes or specific version behaviors.
             #
-            # While this resolves the immediate error, be aware that a completely empty
-            # sql_mode might allow some data integrity issues that strict modes prevent.
-            # For a production environment, after confirming this fixes the migration,
-            # you might want to gradually re-introduce specific modes that are crucial
-            # for your application's data integrity (e.g., ONLY_FULL_GROUP_BY, ERROR_FOR_DIVISION_BY_ZERO),
-            # ensuring 'NO_AUTO_VALUE_ON_ZERO' and 'STRICT_TRANS_TABLES' are explicitly omitted.
-            'init_command': "SET sql_mode=''",
+            # The modes included here are generally compatible with Django and prevent
+            # the '0 as a value for AutoField' error, while still providing some
+            # useful data integrity checks.
+            'init_command': "SET sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'",
 
             'charset': 'utf8mb4', # For older MySQL versions or specific needs.
         },
 
     }
 }
+
 
 
 
